@@ -1,0 +1,36 @@
+/* Need to set #hero.background-image */
+
+#hero {
+    height: 50vh;
+    /* Set the height of the hero section (e.g., full viewport height) */
+    width: 100%;
+    /* Set the width to be full width of the viewport */
+}
+
+#app {
+    max-width: 900px;
+}
+
+.text-background {
+    width: 100%;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Semi-transparent black */
+    padding: 5px;
+    /* Or as needed */
+    display: inline-block;
+}
+
+.text-background-inner {
+    max-width: 900px;
+}
+
+.checkbox-container {
+    border: 1px solid #E8E8E8;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.checkbox-container input[type="checkbox"] {
+    cursor: pointer;
+}
