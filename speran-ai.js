@@ -6,6 +6,8 @@ Inputs:
 - QUESTIONS_LIST
 */
 
+QUESTIONS_LIST.questions.splice(MAX_QUESTIONS);
+
 const API_URL = 'https://speran-ai-06e327aea366.herokuapp.com/getRecommendation';
 
 // Function to send a user's message to ChatGPT and display the response

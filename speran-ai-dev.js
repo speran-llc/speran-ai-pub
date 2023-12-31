@@ -6,6 +6,8 @@ Inputs:
 - QUESTIONS_LIST
 */
 
+QUESTIONS_LIST.questions.splice(MAX_QUESTIONS);
+
 const API_URL = 'http://localhost:5001/getRecommendation';
 
 // Function to send a user's message to ChatGPT and display the response
