@@ -7,6 +7,22 @@
     /* Set the width to be full width of the viewport */
 }
 
+/* Mobile Background */
+@media only screen and (max-width: 767px) {
+    #hero {
+        background-position: -50px;
+        background-size: cover;
+    }
+}
+
+/* Desktop Background */
+@media only screen and (min-width: 768px) {
+    #hero {
+        background-position: 200px 50%;
+        background-size: cover;
+    }
+}
+
 #app {
     max-width: 900px;
 }
