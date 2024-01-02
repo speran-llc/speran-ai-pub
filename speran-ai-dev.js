@@ -19,20 +19,26 @@ async function getRecommendation(opts) {
         customerInfo: opts.customerInfo
     };
 
-    const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-    });
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        });
 
-    if (response.ok) {
-        const data = await response.json();
-        log("response", data);
-        opts.onComplete(data.content);
-    } else {
-        log("response error", response);
+        if (response.ok) {
+            const data = await response.json();
+            log("response", data);
+            opts.onComplete(data.content);
+        } else {
+            log("response error", response);
+            opts.onError();
+        }
+    } catch (err) {
+        log("error", err);
+        opts.onError();
     }
 }
 
@@ -306,6 +312,9 @@ const prepareCustomerInfo = function (opts) {
         customerInfo: qs,
         onComplete: function (data) {
             opts.onComplete(data);
+        },
+        onError: function () {
+            opts.onError();
         }
     });
 };
@@ -352,6 +361,10 @@ const renderRecommendationDiv = function () {
 
                 // Display the recommendation
                 renderRecommendations({ data: data });
+            },
+            onError: function () {
+                $btn.html("Sorry, there was an error.");
+                $app.find("input").prop("disabled", false);
             }
         });
     });
