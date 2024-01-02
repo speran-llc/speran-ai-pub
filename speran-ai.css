@@ -25,6 +25,7 @@
 
 #app {
     max-width: 900px;
+    padding-bottom: 200px;
 }
 
 .text-background {
@@ -49,4 +50,21 @@
 
 .checkbox-container input[type="checkbox"] {
     cursor: pointer;
+}
+
+.floating-cta-container {
+    position: fixed;
+    bottom: 0px;  /* Distance from the bottom */
+    right: 0px;   /* Distance from the right */
+    z-index: 999;  /* Ensure it's above other elements */
+    background-color: white;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #E8E8E8;
+}
+
+@media (max-width: 768px) {
+    .floating-cta-container {
+        font-size: smaller;
+    }
 }
