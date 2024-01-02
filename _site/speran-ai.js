@@ -268,19 +268,19 @@ const renderRecommendations = function (opts = {}) {
         $obj.append($continueDiv);
     } else {
         let template = `
-            <div class="change"><strong>Note: You can also change your answers above to get a different set of recommendations.</strong></div>
+            <div class="change"><strong>Note: Change your answers above to get a different set of recommendations.</strong></div>
         `;
         let $change = $(template);
         $obj.append($change);
     }
 
-    let $app = $('#app');
-    $app.append($obj);
-
     // Hide the reco div 
     let $recoDiv = renderRecommendationDiv();
     $recoDiv.addClass("d-none")
     $recoDiv.find("button").prop("disabled", true);
+
+    let $app = $('#app');
+    $app.append($obj);
 
     // When the second recommendations are shown, allow user to go back and make changes.
     // Changes are disabled when customers are answering the second set of questions
@@ -330,7 +330,7 @@ const renderRecommendationDiv = function () {
 
     $btn.on("click", function (event) {
         // Preparing to get recommendations
-        let origText = $btn.text();
+        let origTxt = $btn.text();
         $btn.html(`Get recommendations from ChatGPT <i class="fa fa-spinner fa-spin"></i>`).prop("disabled", true);
 
         // Disable all inputs while recommendation is being generated
@@ -345,8 +345,7 @@ const renderRecommendationDiv = function () {
         // Prepare all customer answers and generate the recommendation
         prepareCustomerInfo({
             onComplete: function (data) {
-                // Reset button to original text
-                $btn.html(origText);
+                $btn.html(origTxt);
 
                 // Re-enable all inputs so that customer can made changes
                 $app.find("input").prop("disabled", false);
