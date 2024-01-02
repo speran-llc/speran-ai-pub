@@ -331,7 +331,7 @@ const renderRecommendationDiv = function () {
     $btn.on("click", function (event) {
         // Preparing to get recommendations
         let origText = $btn.text();
-        $btn.html(`Get recommendations from ChatGPT... <i class="fa fa-spinner fa-spin"></i>`).prop("disabled", true);
+        $btn.html(`Get recommendations from ChatGPT <i class="fa fa-spinner fa-spin"></i>`).prop("disabled", true);
 
         // Disable all inputs while recommendation is being generated
         $app.find("input").prop("disabled", true);
