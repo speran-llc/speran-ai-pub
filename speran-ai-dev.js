@@ -28,14 +28,25 @@ async function getRecommendation(opts) {
             body: JSON.stringify(requestBody),
         });
 
-        if (response.ok) {
-            const data = await response.json();
-            log("response", data);
-            opts.onComplete(data.content);
-        } else {
-            log("response error", response);
-            opts.onError();
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        const $reco = opts.onStart();
+
+        let responseText = "";
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            // Decode the chunk
+            const chunk = decoder.decode(value, { stream: true });
+
+            responseText += chunk;
+
+            opts.onDataReceived({ data: responseText, $reco: $reco });
         }
+        opts.onEnd($reco);
     } catch (err) {
         log("error", err);
         opts.onError();
@@ -227,18 +238,20 @@ const renderQuestion = function (opts = {}) {
     return $obj;
 }
 
-const renderRecommendations = function (opts = {}) {
+const writeRecommendation = function (opts = {}) {
     let data = opts.data;
-    log("data", data);
+    let $obj = opts.$reco;
+    let $content = $obj.find(".recosContent");
+    $content.html(data);
 
-    let recosTemplate = `
-        <div class="recos">
-            <div class="recosContent">${data}</div>
-        </div>
-    `;
+    let elementBottomPosition = $obj.offset().top + $obj.outerHeight();
+    $('html, body').animate({ scrollTop: elementBottomPosition }, 'smooth');
 
-    let $obj = $(recosTemplate);
+    return $obj;
+};
 
+const finishRecommendation = function (opts = {}) {
+    let $obj = opts.$reco;
     let ql = QUESTIONS_LIST;
     let qc = ql.questions.length;
     let answered = ql.questions.filter(function (el) {
@@ -291,6 +304,20 @@ const renderRecommendations = function (opts = {}) {
     // When the second recommendations are shown, allow user to go back and make changes.
     // Changes are disabled when customers are answering the second set of questions
     $app.find("input").prop("disabled", false);
+    
+    return $obj;
+};
+
+const renderRecommendations = function (opts = {}) {
+    let recosTemplate = `
+        <div class="recos">
+            <div class="recosContent"></div>
+        </div>
+    `;
+    $obj = $(recosTemplate);
+
+    let $app = $('#app');
+    $app.append($obj);
 
     $('html, body').animate({
         scrollTop: $obj.offset().top
@@ -299,24 +326,15 @@ const renderRecommendations = function (opts = {}) {
     return $obj;
 }
 
-const prepareCustomerInfo = function (opts) {
+const prepareCustomerInfo = function () {
     let ql = QUESTIONS_LIST;
 
     let qs = ql.questions.filter(function (el) {
         return (el.hasOwnProperty("answer") && typeof el.answer === "string" && el.answer.length > 0);
     }).map(function (el) {
         return `When the customer was asked, "${el.text}", they responded with "${el.answer}".`;
-    })
-
-    getRecommendation({
-        customerInfo: qs,
-        onComplete: function (data) {
-            opts.onComplete(data);
-        },
-        onError: function () {
-            opts.onError();
-        }
     });
+    return qs;
 };
 
 const renderRecommendationDiv = function () {
@@ -352,15 +370,21 @@ const renderRecommendationDiv = function () {
         $app.find(".stepNum").remove();
 
         // Prepare all customer answers and generate the recommendation
-        prepareCustomerInfo({
-            onComplete: function (data) {
+        let customerInfo = prepareCustomerInfo();
+        getRecommendation({
+            customerInfo: customerInfo,
+            onStart: function () {
+                return renderRecommendations();
+            },
+            onDataReceived: function (args) {
+                writeRecommendation(args);
+            },
+            onEnd: function ($reco) {
+                finishRecommendation({ $reco: $reco });
                 $btn.html(origTxt);
 
                 // Re-enable all inputs so that customer can made changes
                 $app.find("input").prop("disabled", false);
-
-                // Display the recommendation
-                renderRecommendations({ data: data });
             },
             onError: function () {
                 $btn.html("Sorry, there was an error.");
