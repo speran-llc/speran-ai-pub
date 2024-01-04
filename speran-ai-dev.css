@@ -30,6 +30,8 @@ body {
 #app {
     max-width: 900px;
     padding-bottom: 200px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .text-background {
