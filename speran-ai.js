@@ -254,13 +254,12 @@ const renderQuestion = function (opts = {}) {
             if (!disabled) {
                 let checked = $cbx.prop('checked');
                 $cbx.prop('checked', !checked);               
+                // Re-enable the recommendation button
+                $app.find("button").prop("disabled", false);
+
+                // Remove current recommendations to display new one
+                $app.find(".recos").remove();
             }
-
-            // Re-enable the recommendation button
-            $app.find("button").prop("disabled", false);
-
-            // Remove current recommendations to display new one
-            $app.find(".recos").remove();
         }
     });
 
