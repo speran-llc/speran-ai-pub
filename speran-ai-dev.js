@@ -94,7 +94,8 @@ const renderQuestionSet = function (opts = {}) {
     let hid = `questionSet-${id}`;
 
     let template = `
-        <div id="${hid}" class="questions"></div>
+        <div id="${hid}" class="questions">
+        </div>
     `;
 
     let $qs = $(template);
@@ -103,17 +104,86 @@ const renderQuestionSet = function (opts = {}) {
 
     if (id === 0) {
         let questionsList = ql.questions.slice(0, 5);
-        renderQuestion({$questionSet: $qs, questionsList: questionsList, targetIndex: 0});
+        for (let i = 0; i < 5; i++) {
+            renderQuestion({$questionSet: $qs, questionsList: questionsList, targetIndex: i});
+        }
+        renderQuestionDone();
     } else if (id === 1) {
         let questionsList = ql.questions.slice(5, 10);
-        renderQuestion({$questionSet: $qs, questionsList: questionsList, targetIndex: 5});
+        for (let i = 5; i < 10; i++) {
+            renderQuestion({$questionSet: $qs, questionsList: questionsList, targetIndex: i});
+        }
+        renderQuestionDone();
     }
     
     return $qs;
 };
 
+const renderQuestionDone = function (opts = {}) {
+    let template = `
+    <div class="action my-5">
+        <button type="button" class="btn btn-primary">Get recommendations from ChatGPT</button>
+    </div>
+    `;
+    $obj = $(template);
+
+    let ql = QUESTIONS_LIST;
+    
+    let $app = $("#app");
+    $app.append($obj);
+
+    // Specify button display and behavior
+    let $btn = $app.find('button');
+
+    $btn.on('click', function (event) {
+        event.preventDefault();
+
+        gatherAnswersAndGetRecommendation();
+        // Gather answers from checkboxes
+        let $questionDivs = $app.find(".question");
+        $questionDivs.each( function (index, element) {
+            let $div = $(element);
+            let id = parseInt($div.data("id"));
+            let q = ql.questions[id];
+            let values = $div.find("input:checked").map(function () { return this.value; }).get();
+            let answers = values.join(" AND ");
+            q.answer = answers;
+            q.answered = true;
+        });
+
+        // Preparing to get recommendations
+        let origTxt = $btn.text();
+        $btn.html(`Get recommendations from ChatGPT <i class="fa fa-spinner fa-spin"></i>`).prop("disabled", true);
+
+        // Disable all inputs while recommendation is being generated
+        $app.find("input").prop("disabled", true);
+
+        // Prepare all customer answers and generate the recommendation
+        let customerInfo = prepareCustomerInfo();
+        getRecommendation({
+            customerInfo: customerInfo,
+            onStart: function () {
+                return renderRecommendations();
+            },
+            onDataReceived: function (args) {
+                writeRecommendation(args);
+            },
+            onEnd: function ($reco) {
+                finishRecommendation({ $reco: $reco });
+                $btn.html(origTxt);
+
+                // Re-enable all inputs so that customer can made changes
+                $app.find("input").prop("disabled", false);
+            },
+            onError: function () {
+                $btn.html("Sorry, there was an error.");
+                $app.find("input").prop("disabled", false);
+            }
+        });
+    });
+};
+
 const renderQuestion = function (opts = {}) {
-    log("rendering question element...");
 
     let ql = QUESTIONS_LIST;
     
@@ -136,19 +206,14 @@ const renderQuestion = function (opts = {}) {
     let lastStepNum = Math.min(MAX_QUESTIONS, ql.questions.length, 5);
 
     let template = `
-        <div id="${id}" class="question my-5">
+        <div id="${id}" data-id="${ci}" class="question my-5">
             <div class="stepNum">${questionNum} of ${lastStepNum}</div>
-            <h2 class="questionText">${q.text}</h2>
-          
-            <form>
-                <div class="options my-3"></div>
-                <div class="d-grid d-sm-block gap-2 actions">
-                    <button type="submit" class="btn btn-primary">Next</button>
-                </div>
-            </form>
+            <h2 class="questionText">${q.text}</h2>         
+            <div class="options my-3"></div>
         </div>
         `;
     $obj = $(template);
+
     $qs.append($obj);
 
     let $ds = $obj.find('.options');
@@ -167,71 +232,23 @@ const renderQuestion = function (opts = {}) {
         $ds.append($d);
     }
 
-    let $form = $obj.find("form");
-
     // Check the checkbox when user clicks on option
-    $form.find('.checkbox-container').on("click", function (event) {
+    $qs.find('.checkbox-container').on("click", function (event) {
         // Check if the clicked element is not the checkbox
         let $target = $(event.target);
         if (!$target.is('input[type="checkbox"]')) {
-
             // Toggle the checkbox
             let $parent = $target.closest(".checkbox-container");
             let $cbx = $parent.find('input[type="checkbox"]');
 
-            let disabled = $cbx.prop("disabled");
+            let checked = $cbx.prop('checked');
+            $cbx.prop('checked', !checked);               
 
-            if (!disabled) {
-                let checked = $cbx.prop('checked');
-                $cbx.prop('checked', !checked);
+            // Re-enable the recommendation button
+            $app.find("button").prop("disabled", false);
 
-                if (q.answered) {
-                    $obj.find("button").html("Save changes").prop("disabled", false);
-                }
-            }
-        }
-    });
-
-    // Specify button display and behavior
-    let $btn = $form.find('button');
-
-    $form.on('submit', function (event) {
-        event.preventDefault();
-
-        let updatingAnswer = false;
-
-        // Specify button behavior
-        if (q.answered) {
-            // User is updating answer
-            $btn.html("Changes saved!").prop("disabled", true);
-            updatingAnswer = true;
-        } else {
-            // User is answering question for first time
-            $btn.prop("disabled", true);
-        }
-
-        // Gather answers from form
-        let values = $form.find("input:checked").map(function () { return this.value; }).get();
-        let answers = values.join(" AND ");
-        q.answer = answers;
-        q.answered = true;
-
-        let sql = opts.questionsList;
-        let allQuestionsInSetAnswered = sql.filter(function (el) {
-            return el.answered;
-        }).length === sql.length;    
-
-        if (allQuestionsInSetAnswered) {
-            let $recoDiv = renderRecommendationDiv();
-            $recoDiv.removeClass("d-none")
-            $recoDiv.find("button").prop("disabled", false);
-        } else {
-            // If we're updating the answer, then the next question already exists.
-            // If we're not, then we need to render the next question
-            if (!updatingAnswer) {
-                renderQuestion({$questionSet: $qs, questionsList: sql, targetIndex: ci+1 });
-                moveToQuestion({targetIndex: ci+1});
-            }
+            // Remove current recommendations to display new one
+            $app.find(".recos").remove();
         }
     });
 
@@ -244,19 +261,26 @@ const writeRecommendation = function (opts = {}) {
     let $content = $obj.find(".recosContent");
     $content.html(data);
 
-    let elementBottomPosition = $obj.offset().top + $obj.outerHeight();
-    $('html, body').animate({ scrollTop: elementBottomPosition }, 'smooth');
+    let scrollHeight = $obj.prop('scrollHeight');
+    $obj.animate({scrollTop: scrollHeight}, "slow");
 
     return $obj;
 };
 
 const finishRecommendation = function (opts = {}) {
+    let $app = $("#app");
     let $obj = opts.$reco;
     let ql = QUESTIONS_LIST;
     let qc = ql.questions.length;
     let answered = ql.questions.filter(function (el) {
         return el.answered;
     }).length;
+
+    let template = `
+        <div class="change"><strong>Note: Change your answers above to get a different set of recommendations.</strong></div>
+`;
+    let $change = $(template);
+    $obj.append($change);
 
     let allAnswered = (qc === answered);
 
@@ -271,41 +295,48 @@ const finishRecommendation = function (opts = {}) {
         let $continueDiv = $(continueTemplate);
         let $continue = $continueDiv.find("button.continue");
         $continue.on('click', function (event) {
-            $continue.prop('disabled', true);
-    
-            // Disable the previous set of questions until we show the new recommendations
-            $app.find("input").prop("disabled", true);
-    
+            // Remove all previous recommendations and recommendation CTAs
+            $app.find(".recos").addClass("d-none").remove();
+            $app.find(".action").addClass("d-none").remove();
+       
             let $nqs = renderQuestionSet({id: 1});
             moveToQuestionSet({id: 1});
-            
-            // Hide the CTA div while going through the questions
-            let $recoDiv = renderRecommendationDiv();
-            $recoDiv.addClass("d-none");
-    
+            renumberQuestions();
         });    
         $obj.append($continueDiv);
     } else {
-        let template = `
-            <div class="change"><strong>Note: Change your answers above to get a different set of recommendations.</strong></div>
+        let moreTemplate = `
+        <div class="actions my-5">
+            <h5>You can ask ChatGPT for more recommendations.</h5>
+            <button type="button" class="btn btn-primary my-3 continue">Get more recommendations</button>
+        </div>
         `;
-        let $change = $(template);
-        $obj.append($change);
+        let $moreDiv = $(continueTemplate);
+        let $more = $moreDiv.find("button.continue");
+        $more.on('click', function (event) {
+            // Remove all previous recommendation CTAs
+            $app.find(".action").addClass("d-none").remove();
+        });    
+        $obj.append($continueDiv);
     }
 
-    // Hide the reco div 
-    let $recoDiv = renderRecommendationDiv();
-    $recoDiv.addClass("d-none")
-    $recoDiv.find("button").prop("disabled", true);
-
-    let $app = $('#app');
     $app.append($obj);
 
-    // When the second recommendations are shown, allow user to go back and make changes.
-    // Changes are disabled when customers are answering the second set of questions
-    $app.find("input").prop("disabled", false);
-    
+    let scrollHeight = $obj.prop('scrollHeight');
+    $obj.animate({scrollTop: scrollHeight}, "slow");
+
     return $obj;
+};
+
+const renumberQuestions = function () {
+    let $app = $("#app");
+
+    $app.find(".question .stepNum").each(function (index, element) {
+       let $q =  $(element);
+       let text = `${index+1} of 10`;
+       $q.html(text);
+    });
+
 };
 
 const renderRecommendations = function (opts = {}) {
@@ -337,64 +368,6 @@ const prepareCustomerInfo = function () {
     return qs;
 };
 
-const renderRecommendationDiv = function () {
-    let $app = $("#app");
-
-    let $obj = $app.find(".floating-cta-container");
-    if ($obj.length > 0) {
-        return $obj;
-    }
-
-    let template = `
-        <div class="floating-cta-container p-3 d-none">
-            <button type="button" class="btn btn-primary" disabled>Get recommendations from ChatGPT</button>
-        </div>
-    `;
-    $obj = $(template);
-    $app.append($obj);
-
-    $btn = $obj.find("button");
-
-    $btn.on("click", function (event) {
-        // Preparing to get recommendations
-        let origTxt = $btn.text();
-        $btn.html(`Get recommendations from ChatGPT <i class="fa fa-spinner fa-spin"></i>`).prop("disabled", true);
-
-        // Disable all inputs while recommendation is being generated
-        $app.find("input").prop("disabled", true);
-
-        // Remove all previous recommendations
-        $app.find(".recos").remove();
-
-        // Remove all step numbers as they no longer make sense
-        $app.find(".stepNum").remove();
-
-        // Prepare all customer answers and generate the recommendation
-        let customerInfo = prepareCustomerInfo();
-        getRecommendation({
-            customerInfo: customerInfo,
-            onStart: function () {
-                return renderRecommendations();
-            },
-            onDataReceived: function (args) {
-                writeRecommendation(args);
-            },
-            onEnd: function ($reco) {
-                finishRecommendation({ $reco: $reco });
-                $btn.html(origTxt);
-
-                // Re-enable all inputs so that customer can made changes
-                $app.find("input").prop("disabled", false);
-            },
-            onError: function () {
-                $btn.html("Sorry, there was an error.");
-                $app.find("input").prop("disabled", false);
-            }
-        });
-    });
-    return $obj;
-};
-
 $(document).ready(function () {
     
     let $qs = renderQuestionSet({id: 0});
@@ -405,8 +378,6 @@ $(document).ready(function () {
         // Go to first question
         moveToQuestionSet({id: 0});
     });
-
-    let $cta = renderRecommendationDiv();
 
     new Typewriter($('#title')[0], {
         delay: 1,
