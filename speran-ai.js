@@ -250,8 +250,11 @@ const renderQuestion = function (opts = {}) {
             let $parent = $target.closest(".checkbox-container");
             let $cbx = $parent.find('input[type="checkbox"]');
 
-            let checked = $cbx.prop('checked');
-            $cbx.prop('checked', !checked);               
+            let disabled= $cbx.prop("disabled");
+            if (!disabled) {
+                let checked = $cbx.prop('checked');
+                $cbx.prop('checked', !checked);               
+            }
 
             // Re-enable the recommendation button
             $app.find("button").prop("disabled", false);
