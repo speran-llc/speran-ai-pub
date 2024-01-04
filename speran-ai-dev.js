@@ -119,6 +119,57 @@ const renderQuestionSet = function (opts = {}) {
     return $qs;
 };
 
+const gatherAnswersAndGetRecommendation = function () {
+    let $app = $("#app");
+
+    let ql = QUESTIONS_LIST;
+
+    // Specify button display and behavior
+    let $btn = $app.find('button');
+
+    // Gather answers from checkboxes
+    let $questionDivs = $app.find(".question");
+    $questionDivs.each(function (index, element) {
+        let $div = $(element);
+        let id = parseInt($div.data("id"));
+        let q = ql.questions[id];
+        let values = $div.find("input:checked").map(function () { return this.value; }).get();
+        let answers = values.join(" AND ");
+        q.answer = answers;
+        q.answered = true;
+    });
+
+    // Preparing to get recommendations
+    let origTxt = $btn.text();
+    $btn.html(`Get recommendations from ChatGPT <i class="fa fa-spinner fa-spin"></i>`).prop("disabled", true);
+
+    // Disable all inputs while recommendation is being generated
+    $app.find("input").prop("disabled", true);
+
+    // Prepare all customer answers and generate the recommendation
+    let customerInfo = prepareCustomerInfo();
+    getRecommendation({
+        customerInfo: customerInfo,
+        onStart: function () {
+            return renderRecommendations();
+        },
+        onDataReceived: function (args) {
+            writeRecommendation(args);
+        },
+        onEnd: function ($reco) {
+            finishRecommendation({ $reco: $reco });
+            $btn.html(origTxt);
+
+            // Re-enable all inputs so that customer can made changes
+            $app.find("input").prop("disabled", false);
+        },
+        onError: function () {
+            $btn.html("Sorry, there was an error.");
+            $app.find("input").prop("disabled", false);
+        }
+    });
+};
+
 const renderQuestionDone = function (opts = {}) {
     let template = `
     <div class="action my-5">
@@ -137,49 +188,7 @@ const renderQuestionDone = function (opts = {}) {
 
     $btn.on('click', function (event) {
         event.preventDefault();
-
         gatherAnswersAndGetRecommendation();
-        // Gather answers from checkboxes
-        let $questionDivs = $app.find(".question");
-        $questionDivs.each( function (index, element) {
-            let $div = $(element);
-            let id = parseInt($div.data("id"));
-            let q = ql.questions[id];
-            let values = $div.find("input:checked").map(function () { return this.value; }).get();
-            let answers = values.join(" AND ");
-            q.answer = answers;
-            q.answered = true;
-        });
-
-        // Preparing to get recommendations
-        let origTxt = $btn.text();
-        $btn.html(`Get recommendations from ChatGPT <i class="fa fa-spinner fa-spin"></i>`).prop("disabled", true);
-
-        // Disable all inputs while recommendation is being generated
-        $app.find("input").prop("disabled", true);
-
-        // Prepare all customer answers and generate the recommendation
-        let customerInfo = prepareCustomerInfo();
-        getRecommendation({
-            customerInfo: customerInfo,
-            onStart: function () {
-                return renderRecommendations();
-            },
-            onDataReceived: function (args) {
-                writeRecommendation(args);
-            },
-            onEnd: function ($reco) {
-                finishRecommendation({ $reco: $reco });
-                $btn.html(origTxt);
-
-                // Re-enable all inputs so that customer can made changes
-                $app.find("input").prop("disabled", false);
-            },
-            onError: function () {
-                $btn.html("Sorry, there was an error.");
-                $app.find("input").prop("disabled", false);
-            }
-        });
     });
 };
 
@@ -233,7 +242,7 @@ const renderQuestion = function (opts = {}) {
     }
 
     // Check the checkbox when user clicks on option
-    $qs.find('.checkbox-container').on("click", function (event) {
+    $obj.find('.checkbox-container').on("click", function (event) {
         // Check if the clicked element is not the checkbox
         let $target = $(event.target);
         if (!$target.is('input[type="checkbox"]')) {
@@ -305,19 +314,23 @@ const finishRecommendation = function (opts = {}) {
         });    
         $obj.append($continueDiv);
     } else {
+        // Disable for now
+        /*
         let moreTemplate = `
         <div class="actions my-5">
-            <h5>You can ask ChatGPT for more recommendations.</h5>
-            <button type="button" class="btn btn-primary my-3 continue">Get more recommendations</button>
+            <h5>Want more? Ask ChatGPT for more recommendations.</h5>
+            <button type="button" class="btn btn-primary my-3 getMoreRecommendations">Get more recommendations</button>
         </div>
         `;
-        let $moreDiv = $(continueTemplate);
-        let $more = $moreDiv.find("button.continue");
+        let $moreDiv = $(moreTemplate);
+        let $more = $moreDiv.find("button.getMoreRecommendations");
         $more.on('click', function (event) {
             // Remove all previous recommendation CTAs
             $app.find(".action").addClass("d-none").remove();
+            gatherAnswersAndGetRecommendation();
         });    
-        $obj.append($continueDiv);
+        $obj.append($moreDiv);
+        */
     }
 
     $app.append($obj);
