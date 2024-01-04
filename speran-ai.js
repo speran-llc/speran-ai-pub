@@ -188,6 +188,10 @@ const renderQuestionDone = function (opts = {}) {
 
     $btn.on('click', function (event) {
         event.preventDefault();
+        
+        // Remove current recommendations to display new one
+        $app.find(".recos").remove();
+
         gatherAnswersAndGetRecommendation();
     });
 };
@@ -254,11 +258,12 @@ const renderQuestion = function (opts = {}) {
             if (!disabled) {
                 let checked = $cbx.prop('checked');
                 $cbx.prop('checked', !checked);               
+
                 // Re-enable the recommendation button
                 $app.find("button").prop("disabled", false);
 
-                // Remove current recommendations to display new one
-                $app.find(".recos").remove();
+                // Remove the continue button so customer doesn't try to continue with questionnaire yet
+                $app.find(".recos .actions").remove();
             }
         }
     });
