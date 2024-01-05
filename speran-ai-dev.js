@@ -6,21 +6,37 @@ Inputs:
 - QUESTIONS_LIST
 */
 
+QUESTIONS_LIST.currentIndex = 0;
 QUESTIONS_LIST.questions.splice(MAX_QUESTIONS);
 
-const API_URL = 'http://localhost:5001/getRecommendation';
+const API_URL_SEND = 'http://localhost:5001/sendMessage';
 
-// Function to send a user's message to ChatGPT and display the response
-async function getRecommendation(opts) {
+let HISTORY = [];
+
+async function sendMessage(opts = {}) {
+
+    let hs = HISTORY;
+
+    let prompt = opts.prompt;
+
+    hs.push(prompt);
+
+    let links = `If any product is mentioned, link to a google search for that product. The class name of the link should be "recommendationLink".`;
+    
+    let final = [...hs];
+    final.push(links);
+
+    let finalPrompt = final.join("\n");
+    console.log("finalPrompt", finalPrompt);
 
     const requestBody = {
-        productStr: PRODUCT_STR,
-        productsStr: PRODUCTS_STR,
-        customerInfo: opts.customerInfo
+        prompt: finalPrompt
     };
 
+    let current = opts.onStart();
+
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(API_URL_SEND, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -30,8 +46,6 @@ async function getRecommendation(opts) {
 
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
-
-        const $reco = opts.onStart();
 
         let responseText = "";
 
@@ -44,45 +58,18 @@ async function getRecommendation(opts) {
 
             responseText += chunk;
 
-            opts.onDataReceived({ data: responseText, $reco: $reco });
+            opts.onDataReceived({ data: responseText, current: current });
         }
-        opts.onEnd($reco);
+        opts.onEnd();
     } catch (err) {
         log("error", err);
-        opts.onError();
+        opts.onError({current: current});
     }
 }
 
 const log = function () {
     if (window.location.hostname === 'cdpn.io') {
         console.log.apply(console, arguments);
-    }
-};
-
-const moveToQuestion = function (opts) {
-    let ci = 0;
-    if (typeof(opts.targetIndex) === 'number') {
-        ci = opts.targetIndex;
-    }
-    let id = `question-${ci}`;
-    let $obj = $(`#${id}`);
-
-    if ($obj.length >= 0) {
-        $('html, body').animate({
-            scrollTop: $obj.offset().top
-        }, 100);
-    }
-};
-
-const moveToQuestionSet = function (opts) {
-    let id = opts.id;
-    let hid = `questionSet-${id}`;
-    let $obj = $(`#${hid}`);
-
-    if ($obj.length >= 0) {
-        $('html, body').animate({
-            scrollTop: $obj.offset().top
-        }, 100);
     }
 };
 
@@ -100,100 +87,22 @@ const renderQuestionSet = function (opts = {}) {
 
     let $qs = $(template);
     let $app = $('#app');
-    $app.append($qs);
+    let $mh = $app.find(".messageHelpers");
+    $mh.append($qs);
 
     if (id === 0) {
         let questionsList = ql.questions.slice(0, 5);
         for (let i = 0; i < 5; i++) {
             renderQuestion({$questionSet: $qs, questionsList: questionsList, targetIndex: i});
         }
-        renderQuestionDone();
     } else if (id === 1) {
         let questionsList = ql.questions.slice(5, 10);
         for (let i = 5; i < 10; i++) {
             renderQuestion({$questionSet: $qs, questionsList: questionsList, targetIndex: i});
         }
-        renderQuestionDone();
     }
     
     return $qs;
-};
-
-const gatherAnswersAndGetRecommendation = function () {
-    let $app = $("#app");
-
-    let ql = QUESTIONS_LIST;
-
-    // Specify button display and behavior
-    let $btn = $app.find('button');
-
-    // Gather answers from checkboxes
-    let $questionDivs = $app.find(".question");
-    $questionDivs.each(function (index, element) {
-        let $div = $(element);
-        let id = parseInt($div.data("id"));
-        let q = ql.questions[id];
-        let values = $div.find("input:checked").map(function () { return this.value; }).get();
-        let answers = values.join(" AND ");
-        q.answer = answers;
-        q.answered = true;
-    });
-
-    // Preparing to get recommendations
-    let origTxt = $btn.text();
-    $btn.html(`Get recommendations from ChatGPT <i class="fa fa-spinner fa-spin"></i>`).prop("disabled", true);
-
-    // Disable all inputs while recommendation is being generated
-    $app.find("input").prop("disabled", true);
-
-    // Prepare all customer answers and generate the recommendation
-    let customerInfo = prepareCustomerInfo();
-    getRecommendation({
-        customerInfo: customerInfo,
-        onStart: function () {
-            return renderRecommendations();
-        },
-        onDataReceived: function (args) {
-            writeRecommendation(args);
-        },
-        onEnd: function ($reco) {
-            finishRecommendation({ $reco: $reco });
-            $btn.html(origTxt);
-
-            // Re-enable all inputs so that customer can made changes
-            $app.find("input").prop("disabled", false);
-        },
-        onError: function () {
-            $btn.html("Sorry, there was an error.");
-            $app.find("input").prop("disabled", false);
-        }
-    });
-};
-
-const renderQuestionDone = function (opts = {}) {
-    let template = `
-    <div class="action my-5">
-        <button type="button" class="btn btn-primary">Get recommendations from ChatGPT</button>
-    </div>
-    `;
-    $obj = $(template);
-
-    let ql = QUESTIONS_LIST;
-    
-    let $app = $("#app");
-    $app.append($obj);
-
-    // Specify button display and behavior
-    let $btn = $app.find('button');
-
-    $btn.on('click', function (event) {
-        event.preventDefault();
-
-        // Remove current recommendations to display new one
-        $app.find(".recos").remove();
-
-        gatherAnswersAndGetRecommendation();
-    });
 };
 
 const renderQuestion = function (opts = {}) {
@@ -245,6 +154,9 @@ const renderQuestion = function (opts = {}) {
         $ds.append($d);
     }
 
+    let $p = $app.find(".prompt");
+    let $pt = $p.find("textarea");
+
     // Check the checkbox when user clicks on option
     $obj.find('.checkbox-container').on("click", function (event) {
         // Check if the clicked element is not the checkbox
@@ -254,99 +166,32 @@ const renderQuestion = function (opts = {}) {
             let $parent = $target.closest(".checkbox-container");
             let $cbx = $parent.find('input[type="checkbox"]');
 
-            let disabled= $cbx.prop("disabled");
-            if (!disabled) {
-                let checked = $cbx.prop('checked');
-                $cbx.prop('checked', !checked);               
+            let checked = $cbx.prop('checked');
 
-                // Re-enable the recommendation button
-                $app.find("button").prop("disabled", false);
+            let text = $pt.val();
+            let val = $cbx.val();
 
-                // Remove the continue button so customer doesn't try to continue with questionnaire yet
-                $app.find(".recos .actions").remove();
+            if (!checked) {
+                text = text.replace(val, "");
+                text = text + "\n" + val;
+            } else {
+                text = text.replace(val, "");
             }
+            text = text.trim();
+            $pt.val(text);
+
+            // Expand textarea
+            $pt.css('height', '25vh');
+            let $tp = $app.find(".togglePrompt");
+            $tp.html(`<i class="fa fa-solid fa-chevron-down text-light"></i>`);
+
+            $cbx.prop('checked', !checked);
         }
     });
 
     return $obj;
 }
 
-const writeRecommendation = function (opts = {}) {
-    let data = opts.data;
-    let $obj = opts.$reco;
-    let $content = $obj.find(".recosContent");
-    $content.html(data);
-
-    let scrollHeight = $obj.prop('scrollHeight');
-    $obj.animate({scrollTop: scrollHeight}, "slow");
-
-    return $obj;
-};
-
-const finishRecommendation = function (opts = {}) {
-    let $app = $("#app");
-    let $obj = opts.$reco;
-    let ql = QUESTIONS_LIST;
-    let qc = ql.questions.length;
-    let answered = ql.questions.filter(function (el) {
-        return el.answered;
-    }).length;
-
-    let template = `
-        <div class="change"><strong>Note: Change your answers above to get a different set of recommendations.</strong></div>
-`;
-    let $change = $(template);
-    $obj.append($change);
-
-    let allAnswered = (qc === answered);
-
-    if (!allAnswered) {
-        // Show button to continue
-        let continueTemplate = `
-            <div class="actions my-5">
-                <h5>Improve your recommendations by answering just 5 more questions.</h5>
-                <button type="button" class="btn btn-primary my-3 continue">Continue</button>
-            </div>
-        `;
-        let $continueDiv = $(continueTemplate);
-        let $continue = $continueDiv.find("button.continue");
-        $continue.on('click', function (event) {
-            // Remove all previous recommendations and recommendation CTAs
-            $app.find(".recos").addClass("d-none").remove();
-            $app.find(".action").addClass("d-none").remove();
-       
-            let $nqs = renderQuestionSet({id: 1});
-            moveToQuestionSet({id: 1});
-            renumberQuestions();
-        });    
-        $obj.append($continueDiv);
-    } else {
-        // Disable for now
-        /*
-        let moreTemplate = `
-        <div class="actions my-5">
-            <h5>Want more? Ask ChatGPT for more recommendations.</h5>
-            <button type="button" class="btn btn-primary my-3 getMoreRecommendations">Get more recommendations</button>
-        </div>
-        `;
-        let $moreDiv = $(moreTemplate);
-        let $more = $moreDiv.find("button.getMoreRecommendations");
-        $more.on('click', function (event) {
-            // Remove all previous recommendation CTAs
-            $app.find(".action").addClass("d-none").remove();
-            gatherAnswersAndGetRecommendation();
-        });    
-        $obj.append($moreDiv);
-        */
-    }
-
-    $app.append($obj);
-
-    let scrollHeight = $obj.prop('scrollHeight');
-    $obj.animate({scrollTop: scrollHeight}, "slow");
-
-    return $obj;
-};
 
 const renumberQuestions = function () {
     let $app = $("#app");
@@ -359,45 +204,128 @@ const renumberQuestions = function () {
 
 };
 
-const renderRecommendations = function (opts = {}) {
-    let recosTemplate = `
-        <div class="recos">
-            <div class="recosContent"></div>
-        </div>
-    `;
-    $obj = $(recosTemplate);
-
-    let $app = $('#app');
-    $app.append($obj);
-
-    $('html, body').animate({
-        scrollTop: $obj.offset().top
-    }, 100); // 1000 milliseconds for the animation
-
-    return $obj;
-}
-
-const prepareCustomerInfo = function () {
-    let ql = QUESTIONS_LIST;
-
-    let qs = ql.questions.filter(function (el) {
-        return (el.hasOwnProperty("answer") && typeof el.answer === "string" && el.answer.length > 0);
-    }).map(function (el) {
-        return `When the customer was asked, "${el.text}", they responded with "${el.answer}".`;
-    });
-    return qs;
-};
-
 $(document).ready(function () {
     
-    let $qs = renderQuestionSet({id: 0});
+    let $app = $("#app");
+    let template = `
+    <div class="promptResponse mx-auto px-3 pt-3 bg-light sai-content">
+    </div>
+    <div class="messageHelpers my-3 d-none px-2 sai-content mx-auto">
+        <h1>Message helpers</h1>
+        <p>Check the answers below to add them to your message. Uncheck to remove them.</p>
+    </div>
+    <div class="prompt px-3 py-1 bg-dark mx-auto">
+        <div class="d-flex justify-content-center mb-1"><button type="button" class="togglePrompt btn-sm btn"><i class="fa fa-solid fa-chevron-up text-light"></i></div>
+        <div class="textarea-container w-100">
+<textarea name="text" id="text" class="w-100 pe-5 form-control" onChange="this.parentNode.dataset.replicatedValue = this.value">
+Help me find a ${PRODUCT_STR} based on my needs:
+</textarea>
+            <button type="button" class="btn btn-primary btn-sm send"><i class="fa-solid fa-paper-plane fa-xs"></i></button>
+        </div>
+        <div class="promptHelp d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary btn-sm viewMessageHelpers"><i class="fa-solid fa-plus"></i></button>
+        </div>
+    </div>    
+    `;
 
-    $("#lp").on("submit", function (event) {
-        event.preventDefault();
-        
-        // Go to first question
-        moveToQuestionSet({id: 0});
+    $app.append(template)
+
+    let $prompt = $app.find(".prompt");
+    let $promptInput = $prompt.find("textarea");
+    let $bs = $prompt.find("button.send");
+    let $pr = $app.find(".promptResponse");
+    let $promptHelp = $app.find(".promptHelp");
+    let $mh = $app.find(".messageHelpers");
+    let $vmh = $promptHelp.find("button.viewMessageHelpers");
+
+    $bs.on("click", function () {
+
+        let origTxt = $bs.html();
+        $bs.html(`<i class="fa fa-spinner fa-spin fa-xs"></i>`).prop("disabled", true);
+
+        let message = $prompt.find("textarea").val();
+
+        $prompt.find("textarea").val("");
+
+        $mh.addClass("d-none");
+
+        // Reset height of textarea
+        $promptInput.css('height', '100px');
+
+        $app.find("input:checked").prop("checked", false);
+
+        $vmh.html(`<i class="fa-solid fa-plus"></i>`);
+
+        sendMessage({
+            prompt: message,
+            onStart: function (args) {
+                
+                $pr.scrollTop($pr.prop('scrollHeight'));           
+
+                $pr.html($pr.html() + `
+                    <div class="py-2"><strong>You</strong></div>
+                    <div class="mb-4">${message}</div>
+                    <div class="py-2"><strong>ChatGPT</strong></div>
+                `);
+
+                return $pr.html();
+            },
+            onDataReceived: function (args) {
+                let current = args.current;
+                html = current + marked.parse(args.data);
+                $pr.html(html);
+
+                $pr.scrollTop($pr.prop('scrollHeight'));           
+            },
+            onEnd: function ($reco) {
+                $pr.html($pr.html() + `<div class="mb-4"></div>`);
+
+                $bs.html(origTxt);
+                $bs.prop("disabled", false);
+            },
+            onError: function (args) {
+                let current = args.current;
+                html = [current, "Sorry, there was an error. Please try again later."].join("\n\n");
+                $pr.html(html);
+
+                $app.find("input").prop("disabled", false);
+            }
+        });
+
     });
+
+    $vmh.on("click", function (event) {
+        let $messageHelpers = $app.find(".messageHelpers");
+        
+        let hidden = $messageHelpers.hasClass("d-none");
+        if (hidden) {
+            $vmh.html(`<i class="fa-solid fa-minus"></i>`);
+        } else {
+            $vmh.html(`<i class="fa-solid fa-plus"></i>`);
+        }
+
+        $messageHelpers.toggleClass("d-none");
+        
+        $('html, body').animate({
+            scrollTop: $messageHelpers.offset().top
+        }, 100);
+    });
+
+    let $tp = $app.find(".togglePrompt");
+    $tp.on("click", function () {
+        let height = $promptInput.css("height");
+        if (height === "100px") {
+            $promptInput.css("height", "25vh");
+            $tp.html(`<i class="fa fa-solid fa-chevron-down text-light"></i>`);
+        } else {
+            $promptInput.css("height", "100px");
+            $tp.html(`<i class="fa fa-solid fa-chevron-up text-light"></i>`);
+        }
+    });
+
+    renderQuestionSet({id: 0});
+    renderQuestionSet({id: 1});
+    renumberQuestions();
 
     new Typewriter($('#title')[0], {
         delay: 1,
