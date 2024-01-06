@@ -179,6 +179,9 @@ const renderQuestion = function (opts = {}) {
 $(document).ready(function () {
 
     let $app = $("#app");
+
+    $app.addClass("bg-light mx-auto");
+
     let template = `
     <div id="hero" class="d-flex align-items-center justify-content-center">
       <div class="text-background p-3">
@@ -188,9 +191,10 @@ $(document).ready(function () {
           </div>
         </div>
       </div>
-    </div>    
-    <div class="promptResponse mx-auto px-3 pt-3 bg-light sai-content">
     </div>
+
+    <div class="promptResponse mx-auto px-3 pt-3 bg-light sai-content">    </div>
+
     <div class="messageHelpers my-3 px-3 sai-content mx-auto">
         <h1>Message Helpers</h1>
         <p>Quickly prepare a message to ChatGPT by clicking an answer to add it to your message. Click again to remove it.</p>
@@ -209,7 +213,7 @@ $(document).ready(function () {
 <textarea name="text" id="text" class="w-100 pe-5 form-control">
 Help me find a ${PRODUCT_STR} based on my needs.
 </textarea>
-            <button type="button" class="btn btn-primary btn-sm send"><i class="fa-solid fa-paper-plane fa-xs"></i></button>
+            <button type="button" class="btn btn-primary send"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
         <div class="promptHelp d-flex align-items-center">
             <button type="button" class="btn btn-secondary btn-sm viewMessageHelpers"><i class="fa-solid fa-minus fa-xs"></i></button>

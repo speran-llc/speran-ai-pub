@@ -1,7 +1,13 @@
 body {
     overflow: hidden;
+    position: fixed;
 }
 
+#app {
+    height: 79vh;
+    padding-bottom: 0;
+    overflow-y: scroll;
+}
 
 /* Need to set #hero.background-image */
 
@@ -51,12 +57,6 @@ body {
 .cbx-container input[type="checkbox"] {
     cursor: pointer;
     margin-right: 10px;
-}
-
-#app {
-    height: 100vh;
-    padding-bottom: 21vh;
-    overflow-y: scroll;
 }
 
 .sai-content {
