@@ -33,3 +33,13 @@ body {
 .content-wrapper {
     background-color: #f8f9fa !important;
 }
+
+#app {
+    padding-bottom: 9vh;
+}
+
+@media only screen and (min-width: 768px) {
+    #app {
+        padding-bottom: 31vh;
+    }
+}
