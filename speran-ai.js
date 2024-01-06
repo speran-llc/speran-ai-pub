@@ -1,10 +1,10 @@
+const API_URL_SEND = 'https://speran-ai-06e327aea366.herokuapp.com/sendMessage';
+
 /*
 Inputs:
 - PRODUCT_STR
 - PRODUCTS_STR
 */
-
-const API_URL_SEND = 'https://speran-ai-06e327aea366.herokuapp.com/sendMessage';
 
 const QUESTIONS_LIST = getQuestionsList(PRODUCT_STR);
 
@@ -146,30 +146,31 @@ const renderQuestion = function (opts = {}) {
     $obj.find('.cbx-container').on("click", function (event) {
         // Check if the clicked element is not the checkbox
         let $target = $(event.target);
+
+        // Toggle the checkbox
+        let $parent = $target.closest(".cbx-container");
+        let $cbx = $parent.find('input[type="checkbox"]');
+
+        let checked = $cbx.prop('checked');
+
         if (!$target.is('input[type="checkbox"]')) {
-            // Toggle the checkbox
-            let $parent = $target.closest(".cbx-container");
-            let $cbx = $parent.find('input[type="checkbox"]');
-
-            let checked = $cbx.prop('checked');
-
-            let text = $pt.val();
-            let val = $cbx.val();
-
-            let valText = val + "\n";
-            if (!checked) {
-                text = text.replace(valText, "");
-                text = text + valText;
-            } else {
-                text = text.replace(valText, "");
-            }
-            $pt.val(text);
-
-            // Scroll textarea to bottom
-            $pt.scrollTop($pt.prop('scrollHeight'));
-
             $cbx.prop('checked', !checked);
         }
+
+        let text = $pt.val();
+        let val = $cbx.val();
+
+        let valText = val + "\n";
+        if (!checked) {
+            text = text.replace(valText, "");
+            text = text + valText;
+        } else {
+            text = text.replace(valText, "");
+        }
+        $pt.val(text);
+
+        // Scroll textarea to bottom
+        $pt.scrollTop($pt.prop('scrollHeight'));
     });
 
     return $obj;
@@ -235,9 +236,8 @@ Help me find a ${PRODUCT_STR} based on my needs.
 
         let message = $prompt.find("textarea").val();
 
-        // Clear out prompt and focus back on it
+        // Clear out prompt
         $promptInput.val("");
-        $promptInput.focus();
 
         // Reset height of textarea
         $promptInput.removeClass("expanded");
