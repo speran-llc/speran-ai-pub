@@ -70,7 +70,7 @@ async function sendMessage(opts = {}) {
         hs.push(responseText);
         opts.onEnd();
     } catch (err) {
-        log("error", err);
+        console.log("error", err);
         opts.onError({ current: current });
     }
 }
