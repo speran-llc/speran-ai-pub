@@ -1,12 +1,25 @@
 body {
     overflow: hidden;
-    position: fixed;
+    position: fixed !important;
+}
+
+@media only screen and (min-width: 768px) {
+    body {
+        position: static !important;
+    }
 }
 
 #app {
     height: 79vh;
     padding-bottom: 0;
     overflow-y: scroll;
+}
+
+@media only screen and (min-width: 768px) {
+    #app {
+        height: 100vh;
+        padding-bottom: 20vh;
+    }
 }
 
 /* Need to set #hero.background-image */
