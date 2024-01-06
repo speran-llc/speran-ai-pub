@@ -1,3 +1,5 @@
+/* CSS specific to Squarespace */
+
 @media only screen and (max-width: 767px) {
     .row>* {
         padding-left: 0 !important;
@@ -22,4 +24,12 @@
 
 footer {
     display: none;
+}
+
+body {
+    background-color: #f8f9fa !important;
+}
+
+.content-wrapper {
+    background-color: #f8f9fa !important;
 }

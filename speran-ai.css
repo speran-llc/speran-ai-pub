@@ -18,7 +18,7 @@ body {
 @media only screen and (min-width: 768px) {
     #app {
         height: 100vh;
-        padding-bottom: 20vh;
+        padding-bottom: 30vh;
     }
 }
 
