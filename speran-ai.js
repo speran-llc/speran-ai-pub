@@ -4,7 +4,7 @@ Inputs:
 - PRODUCTS_STR
 */
 
-const API_URL = 'https://speran-ai-06e327aea366.herokuapp.com/sendMessage';
+const API_URL_SEND = 'https://speran-ai-06e327aea366.herokuapp.com/sendMessage';
 
 const QUESTIONS_LIST = getQuestionsList(PRODUCT_STR);
 
