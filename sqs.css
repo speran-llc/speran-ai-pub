@@ -19,3 +19,15 @@
         padding-top: 0 !important;
     }
 }
+
+footer {
+    display: none;
+}
+
+.prompt {
+    bottom: 39px !important;
+}
+
+#app {
+    height: 68vh;
+}
