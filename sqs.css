@@ -24,10 +24,10 @@ footer {
     display: none;
 }
 
-.prompt {
-    bottom: 39px !important;
-}
-
 #app {
     height: 68vh;
+}
+
+body {
+    position: fixed;
 }
