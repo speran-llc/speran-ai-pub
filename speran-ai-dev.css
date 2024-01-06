@@ -10,16 +10,9 @@ body {
 }
 
 #app {
-    height: 79vh;
-    padding-bottom: 0;
+    height: 100vh;
+    padding-bottom: 20vh;
     overflow-y: scroll;
-}
-
-@media only screen and (min-width: 768px) {
-    #app {
-        height: 100vh;
-        padding-bottom: 20vh;
-    }
 }
 
 /* Need to set #hero.background-image */

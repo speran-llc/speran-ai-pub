@@ -35,11 +35,5 @@ body {
 }
 
 #app {
-    padding-bottom: 9vh;
-}
-
-@media only screen and (min-width: 768px) {
-    #app {
-        padding-bottom: 31vh;
-    }
+    padding-bottom: 32vh;
 }
