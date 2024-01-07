@@ -21,5 +21,9 @@
 }
 
 #app {
-    height: 91vh !important;
+    height: calc(100vh - 83px) !important;
+}
+
+footer {
+    display: none;
 }
