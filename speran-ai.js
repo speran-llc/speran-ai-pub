@@ -28,6 +28,7 @@ async function sendMessage(opts = {}) {
 
     let links = `
         If any product or service is mentioned, bold the name and link to a google search for that product.
+        In the link to the Google search, the product name should be URL encoded.
         The class name of the link should be "recommendationLink" and the target of the link should be "_blank".
         Bold all words that relate to my needs.
     `;
@@ -778,74 +779,314 @@ function getQuestionsList(key) {
                 {
                     "text": "Does the length of the fantasy fiction book matter to you?",
                     "options": [
-                      "<input type=\"checkbox\" name=\"length\" value=\"The length of the fantasy fiction book does matter to me.\"> The length of the fantasy fiction book does matter to me.",
-                      "<input type=\"checkbox\" name=\"length\" value=\"The length of the fantasy fiction book does not matter to me.\"> The length of the fantasy fiction book does not matter to me."
+                        "<input type=\"checkbox\" name=\"length\" value=\"The length of the fantasy fiction book does matter to me.\"> The length of the fantasy fiction book does matter to me.",
+                        "<input type=\"checkbox\" name=\"length\" value=\"The length of the fantasy fiction book does not matter to me.\"> The length of the fantasy fiction book does not matter to me."
                     ]
-                  },
-                  {
+                },
+                {
                     "text": "Would you prefer the fantasy fiction book to have a happy or a tragic ending?",
                     "options": [
-                      "<input type=\"checkbox\" name=\"ending\" value=\"I would prefer the fantasy fiction book to have a happy ending.\"> I would prefer the fantasy fiction book to have a happy ending.",
-                      "<input type=\"checkbox\" name=\"ending\" value=\"I would prefer the fantasy fiction book to have a tragic ending.\"> I would prefer the fantasy fiction book to have a tragic ending."
+                        "<input type=\"checkbox\" name=\"ending\" value=\"I would prefer the fantasy fiction book to have a happy ending.\"> I would prefer the fantasy fiction book to have a happy ending.",
+                        "<input type=\"checkbox\" name=\"ending\" value=\"I would prefer the fantasy fiction book to have a tragic ending.\"> I would prefer the fantasy fiction book to have a tragic ending."
                     ]
-                  },
-                  {
+                },
+                {
                     "text": "Are you buying the fantasy fiction book for yourself or as a gift?",
                     "options": [
-                      "<input type=\"checkbox\" name=\"purpose\" value=\"I am buying the fantasy fiction book for myself.\"> I am buying the fantasy fiction book for myself.",
-                      "<input type=\"checkbox\" name=\"purpose\" value=\"I am buying the fantasy fiction book as a gift.\"> I am buying the fantasy fiction book as a gift."
+                        "<input type=\"checkbox\" name=\"purpose\" value=\"I am buying the fantasy fiction book for myself.\"> I am buying the fantasy fiction book for myself.",
+                        "<input type=\"checkbox\" name=\"purpose\" value=\"I am buying the fantasy fiction book as a gift.\"> I am buying the fantasy fiction book as a gift."
                     ]
-                  },
-                  {
+                },
+                {
                     "text": "Do you have a preference for reading paperbacks, hardcovers or e-books?",
                     "options": [
-                      "<input type=\"checkbox\" name=\"format\" value=\"I have a preference for reading paperbacks.\"> I have a preference for reading paperbacks.",
-                      "<input type=\"checkbox\" name=\"format\" value=\"I have a preference for reading hardcovers.\"> I have a preference for reading hardcovers.",
-                      "<input type=\"checkbox\" name=\"format\" value=\"I have a preference for reading e-books.\"> I have a preference for reading e-books."
+                        "<input type=\"checkbox\" name=\"format\" value=\"I have a preference for reading paperbacks.\"> I have a preference for reading paperbacks.",
+                        "<input type=\"checkbox\" name=\"format\" value=\"I have a preference for reading hardcovers.\"> I have a preference for reading hardcovers.",
+                        "<input type=\"checkbox\" name=\"format\" value=\"I have a preference for reading e-books.\"> I have a preference for reading e-books."
                     ]
-                  },
-                  {
+                },
+                {
                     "text": "Are there certain elements or themes you gravitate towards in a fantasy fiction book?",
                     "options": [
-                      "<input type=\"checkbox\" name=\"elements\" value=\"Yes, there are certain elements or themes I gravitate towards in a fantasy fiction book.\"> Yes, there are certain elements or themes I gravitate towards in a fantasy fiction book.",
-                      "<input type=\"checkbox\" name=\"elements\" value=\"No, there are no specific elements or themes I gravitate towards in a fantasy fiction book.\"> No, there are no specific elements or themes I gravitate towards in a fantasy fiction book."
+                        "<input type=\"checkbox\" name=\"elements\" value=\"Yes, there are certain elements or themes I gravitate towards in a fantasy fiction book.\"> Yes, there are certain elements or themes I gravitate towards in a fantasy fiction book.",
+                        "<input type=\"checkbox\" name=\"elements\" value=\"No, there are no specific elements or themes I gravitate towards in a fantasy fiction book.\"> No, there are no specific elements or themes I gravitate towards in a fantasy fiction book."
                     ]
-                  },
-                  {
+                },
+                {
                     "text": "Would you like to explore new authors or stick to your favourite ones?",
                     "options": [
-                      "<input type=\"checkbox\" name=\"authors\" value=\"I would like to explore new authors in fantasy fiction book.\"> I would like to explore new authors in fantasy fiction book.",
-                      "<input type=\"checkbox\" name=\"authors\" value=\"I would like to stick to my favourite authors in fantasy fiction book.\"> I would like to stick to my favourite authors in fantasy fiction book."
+                        "<input type=\"checkbox\" name=\"authors\" value=\"I would like to explore new authors in fantasy fiction book.\"> I would like to explore new authors in fantasy fiction book.",
+                        "<input type=\"checkbox\" name=\"authors\" value=\"I would like to stick to my favourite authors in fantasy fiction book.\"> I would like to stick to my favourite authors in fantasy fiction book."
                     ]
-                  },
-                  {
+                },
+                {
                     "text": "Would you prefer the fantasy fiction book to be targeted towards a specific gender?",
                     "options": [
-                      "<input type=\"checkbox\" name=\"gender\" value=\"I would prefer the fantasy fiction book to be targeted towards a specific gender.\"> I would prefer the fantasy fiction book to be targeted towards a specific gender.",
-                      "<input type=\"checkbox\" name=\"gender\" value=\"I don't have a preference for gender-specific fantasy fiction books.\"> I don't have a preference for gender-specific fantasy fiction books."
+                        "<input type=\"checkbox\" name=\"gender\" value=\"I would prefer the fantasy fiction book to be targeted towards a specific gender.\"> I would prefer the fantasy fiction book to be targeted towards a specific gender.",
+                        "<input type=\"checkbox\" name=\"gender\" value=\"I don't have a preference for gender-specific fantasy fiction books.\"> I don't have a preference for gender-specific fantasy fiction books."
                     ]
-                  },
-                   {
+                },
+                {
                     "text": "Do you prefer a single narrator or multiple points of view in a fantasy fiction book?",
                     "options": [
-                      "<input type=\"checkbox\" name=\"narrator\" value=\"I prefer a single narrator in a fantasy fiction book.\"> I prefer a single narrator in a fantasy fiction book.",
-                      "<input type=\"checkbox\" name=\"narrator\" value=\"I prefer multiple points of view in a fantasy fiction book.\"> I prefer multiple points of view in a fantasy fiction book."
+                        "<input type=\"checkbox\" name=\"narrator\" value=\"I prefer a single narrator in a fantasy fiction book.\"> I prefer a single narrator in a fantasy fiction book.",
+                        "<input type=\"checkbox\" name=\"narrator\" value=\"I prefer multiple points of view in a fantasy fiction book.\"> I prefer multiple points of view in a fantasy fiction book."
                     ]
-                  },
-                  {
+                },
+                {
                     "text": "Are you interested in reading a fantasy fiction book that includes illustrations?",
                     "options": [
-                      "<input type=\"checkbox\" name=\"illustrations\" value=\"Yes, I am interested in reading a fantasy fiction book that includes illustrations.\"> Yes, I am interested in reading a fantasy fiction book that includes illustrations.",
-                      "<input type=\"checkbox\" name=\"illustrations\" value=\"No, I am not interested in reading a fantasy fiction book that includes illustrations.\"> No, I am not interested in reading a fantasy fiction book that includes illustrations."
+                        "<input type=\"checkbox\" name=\"illustrations\" value=\"Yes, I am interested in reading a fantasy fiction book that includes illustrations.\"> Yes, I am interested in reading a fantasy fiction book that includes illustrations.",
+                        "<input type=\"checkbox\" name=\"illustrations\" value=\"No, I am not interested in reading a fantasy fiction book that includes illustrations.\"> No, I am not interested in reading a fantasy fiction book that includes illustrations."
                     ]
-                  },
-                  {
+                },
+                {
                     "text": "Are you interested in fantasy fiction books based on films or TV series?",
                     "options": [
-                      "<input type=\"checkbox\" name=\"adaptations\" value=\"Yes, I am interested in fantasy fiction books based on films or TV series.\"> Yes, I am interested in fantasy fiction books based on films or TV series.",
-                      "<input type=\"checkbox\" name=\"adaptations\" value=\"No, I am not interested in fantasy fiction books based on films or TV series.\"> No, I am not interested in fantasy fiction books based on films or TV series."
+                        "<input type=\"checkbox\" name=\"adaptations\" value=\"Yes, I am interested in fantasy fiction books based on films or TV series.\"> Yes, I am interested in fantasy fiction books based on films or TV series.",
+                        "<input type=\"checkbox\" name=\"adaptations\" value=\"No, I am not interested in fantasy fiction books based on films or TV series.\"> No, I am not interested in fantasy fiction books based on films or TV series."
                     ]
-                  }
+                },
+                
+            ]
+        },
+        "women's top":
+        {
+            "questions": [
+                {
+                    "text": "What is your preferred style for the woman's top?",
+                    "options": [
+                        "<input type='checkbox' name='style' value='My preferred style for the woman&#39;s top is casual.'> Casual",
+                        "<input type='checkbox' name='style' value='My preferred style for the woman&#39;s top is formal.'> Formal",
+                        "<input type='checkbox' name='style' value='My preferred style for the woman&#39;s top is sporty.'> Sporty",
+                        "<input type='checkbox' name='style' value='My preferred style for the woman&#39;s top is chic.'> Chic"
+                    ]
+                },
+                {
+                    "text": "What size of the woman's top are you looking for?",
+                    "options": [
+                        "<input type='checkbox' name='size' value='The size of the woman&#39;s top I am looking for is Small.'> Small",
+                        "<input type='checkbox' name='size' value='The size of the woman&#39;s top I am looking for is Medium.'> Medium",
+                        "<input type='checkbox' name='size' value='The size of the woman&#39;s top I am looking for is Large.'> Large"
+                    ]
+                },
+                {
+                    "text": "What color preference do you have for the woman's top?",
+                    "options": [
+                        "<input type='checkbox' name='color' value='My color preference for the woman&#39;s top is black.'> Black",
+                        "<input type='checkbox' name='color' value='My color preference for the woman&#39;s top is white.'> White",
+                        "<input type='checkbox' name='color' value='My color preference for the woman&#39;s top is blue.'> Blue",
+                        "<input type='checkbox' name='color' value='My color preference for the woman&#39;s top is red.'> Red"
+                    ]
+                },
+                {
+                    "text": "What is your budget for the woman's top?",
+                    "options": [
+                        "<input type='checkbox' name='budget' value='My budget for the woman&#39;s top is under $50.'> Under $50",
+                        "<input type='checkbox' name='budget' value='My budget for the woman&#39;s top is $50-$100.'> $50-$100",
+                        "<input type='checkbox' name='budget' value='My budget for the woman&#39;s top is over $100.'> Over $100"
+                    ]
+                },
+                {
+                    "text": "Are you looking for a specific brand of woman's top?",
+                    "options": [
+                        "<input type='checkbox' name='brand' value='I am looking for a specific brand of woman&#39;s top.'> Yes",
+                        "<input type='checkbox' name='brand' value='I am not looking for a specific brand of woman&#39;s top.'> No"
+                    ]
+                },
+                {
+                    "text": "Is the woman's top for a special occasion?",
+                    "options": [
+                        "<input type='checkbox' name='occasion' value='The woman&#39;s top is for a special occasion.'> Yes",
+                        "<input type='checkbox' name='occasion' value='The woman&#39;s top is not for a special occasion.'> No"
+                    ]
+                },
+                {
+                    "text": "Do you prefer a patterned or a solid colored woman's top?",
+                    "options": [
+                        "<input type='checkbox' name='pattern' value='I prefer a patterned woman&#39;s top.'> Patterned",
+                        "<input type='checkbox' name='pattern' value='I prefer a solid colored woman&#39;s top.'> Solid"
+                    ]
+                },
+                {
+                    "text": "Are you in search for a long-sleeved or a short-sleeved woman's top?",
+                    "options": [
+                        "<input type='checkbox' name='sleeve' value='I am in search for a long-sleeved woman&#39;s top.'> Long-Sleeved",
+                        "<input type='checkbox' name='sleeve' value='I am in search for a short-sleeved woman&#39;s top.'> Short-Sleeved"
+                    ]
+                },
+                {
+                    "text": "Are you looking for a woman's top with a specific neckline?",
+                    "options": [
+                        "<input type='checkbox' name='neckline' value='I am looking for a woman&#39;s top with a specific neckline.'> Yes",
+                        "<input type='checkbox' name='neckline' value='I am not looking for a woman&#39;s top with a specific neckline.'> No"
+                    ]
+                },
+                {
+                    "text": "Do you like the woman's top to be fitted or loose?",
+                    "options": [
+                        "<input type='checkbox' name='fit' value='I like the woman&#39;s top to be fitted.'> Fitted",
+                        "<input type='checkbox' name='fit' value='I like the woman&#39;s top to be loose.'> Loose"
+                    ]
+                },
+                {
+                    "text": "Do you prefer the woman's top to be cotton or synthetic material?", 
+                    "options": [
+                     "<input type='checkbox' name='material' value='I prefer the woman&#39;s top to be cotton.'> Cotton",
+                     "<input type='checkbox' name='material' value='I prefer the woman&#39;s top to be synthetic material.'> Synthetic Material"
+                    ]
+                },
+                {
+                "text": "Is the woman's top going to be worn for everyday use or for an event?",
+                "options": [
+                    "<input type='checkbox' name='usage' value='The woman&#39;s top is going to be worn for everyday use.'> Everyday Use",
+                    "<input type='checkbox' name='usage' value='The woman&#39;s top is going to be worn for an event.'> For an Event"
+                ]
+                },
+                {
+                "text": "Would you like the woman's top to have features like pockets or a hood?",
+                "options": [
+                    "<input type='checkbox' name='features' value='I would like the woman&#39;s top to have features like pockets.'> Pockets",
+                    "<input type='checkbox' name='features' value='I would like the woman&#39;s top to have a hood.'> Hood",
+                    "<input type='checkbox' name='features' value='I do not want the woman&#39;s top to have any specific features.'> No Specific Features"
+                ]
+                },
+                {
+                "text": "Do you prefer a woman's top with a zipper, buttons, or a pull-over style?",
+                "options": [
+                    "<input type='checkbox' name='closure' value='I prefer a woman&#39;s top with a zipper.'> Zipper",
+                    "<input type='checkbox' name='closure' value='I prefer a woman&#39;s top with buttons.'> Buttons",
+                    "<input type='checkbox' name='closure' value='I prefer a woman&#39;s top with a pull-over style.'> Pull-Over Style"
+                ]
+                },
+                {
+                "text": "Would you like the woman's top to be machine washable or do you prefer hand wash/dry clean only?",
+                "options": [
+                    "<input type='checkbox' name='wash' value='I would like the woman&#39;s top to be machine washable.'> Machine Washable",
+                    "<input type='checkbox' name='wash' value='I prefer a woman&#39;s top that is hand wash/dry clean only.'> Hand Wash/Dry Clean Only"
+                ]
+                },
+                {
+                "text": "Are you looking for a woman's top for a specific season?",
+                "options": [
+                    "<input type='checkbox' name='season' value='I am looking for a woman&#39;s top for a specific season.'> Yes",
+                    "<input type='checkbox' name='season' value='I am not looking for a woman&#39;s top for a specific season.'> No"
+                ]
+                },
+                {
+                "text": "Do you prefer a woman's top with embellishments (like sequins or embroidery) or a simple design?",
+                "options": [
+                    "<input type='checkbox' name='design' value='I prefer a woman&#39;s top with embellishments like sequins or embroidery.'> With Embellishments",
+                    "<input type='checkbox' name='design' value='I prefer a woman&#39;s top with a simple design.'> Simple Design"
+                ]
+                },
+                {
+                "text": "Are you looking for a woman's top that provides certain coverage or modesty?",
+                "options": [
+                    "<input type='checkbox' name='coverage' value='I am looking for a woman&#39;s top that provides certain coverage or modesty.'> Yes",
+                    "<input type='checkbox' name='coverage' value='I am not looking for a woman&#39;s top that provides certain coverage or modesty.'> No"
+                ]
+                },
+                {
+                "text": "Do you prefer a woman's top from a sustainable, eco-friendly brand?",
+                "options": [
+                    "<input type='checkbox' name='sustainable' value='I prefer a woman&#39;s top from a sustainable, eco-friendly brand.'> Yes",
+                    "<input type='checkbox' name='sustainable' value='I do not prefer a woman&#39;s top from a sustainable, eco-friendly brand.'> No"
+                ]
+                },
+                {
+                "text": "Would you consider a preloved or second-hand woman's top?",
+                "options": [
+                    "<input type='checkbox' name='secondhand' value='I would consider a preloved or second-hand woman&#39;s top.'> Yes",
+                    "<input type='checkbox' name='secondhand' value='I would not consider a preloved or second-hand woman&#39;s top.'> No"
+                ]
+                }
+            ]
+        },
+        "men's hoodie":
+        {
+            "questions": [
+                {
+                    "text": "What size of the men's hoodies are you interested in?",
+                    "options": [
+                        "<input type='checkbox' name='size' value='I am interested in small size of the men&#39;s hoodies.'> Small",
+                        "<input type='checkbox' name='size' value='I am interested in medium size of the men&#39;s hoodies.'> Medium",
+                        "<input type='checkbox' name='size' value='I am interested in large size of the men&#39;s hoodies.'> Large",
+                        "<input type='checkbox' name='size' value='I am interested in X-large size of the men&#39;s hoodies.'> X-Large"
+                    ]
+                },
+                {
+                    "text": "What color of the men's hoodies would you prefer?",
+                    "options": [
+                        "<input type='checkbox' name='color' value='I would prefer the black color of the men&#39;s hoodies.'> Black",
+                        "<input type='checkbox' name='color' value='I would prefer the white color of the men&#39;s hoodies.'> White",
+                        "<input type='checkbox' name='color' value='I would prefer the blue color of the men&#39;s hoodies.'> Blue",
+                        "<input type='checkbox' name='color' value='I would prefer the red color of the men&#39;s hoodies.'> Red"
+                    ]
+                },
+                {
+                    "text": "Do you prefer zipper or pullover men's hoodies?",
+                    "options": [
+                        "<input type='checkbox' name='type' value='I prefer zipper men&#39;s hoodies.'> Zipper",
+                        "<input type='checkbox' name='type' value='I prefer pullover men&#39;s hoodies.'> Pullover"
+                    ]
+                },
+                {
+                    "text": "Do you prefer the hoodies with or without a pocket?",
+                    "options": [
+                        "<input type='checkbox' name='pocket' value='I prefer the men&#39;s hoodies with a pocket.'> With Pocket",
+                        "<input type='checkbox' name='pocket' value='I prefer the men&#39;s hoodies without a pocket.'> Without Pocket"
+                    ]
+                },
+                {
+                    "text": "Are you interested in any specific brand for the men's hoodies?",
+                    "options": [
+                        "<input type='checkbox' name='brand' value='I am interested in Nike for the men&#39;s hoodies.'> Nike",
+                        "<input type='checkbox' name='brand' value='I am interested in Adidas for the men&#39;s hoodies.'> Adidas",
+                        "<input type='checkbox' name='brand' value='I am interested in Puma for the men&#39;s hoodies.'> Puma",
+                        "<input type='checkbox' name='brand' value='I am interested in no specific brand for the men&#39;s hoodies.'> No Specific Brand"
+                    ]
+                },
+                {
+                    "text": "What is your maximum budget for the men's hoodies?",
+                    "options": [
+                        "<input type='checkbox' name='budget' value='My maximum budget for the men&#39;s hoodies is $50.'> Up to $50",
+                        "<input type='checkbox' name='budget' value='My maximum budget for the men&#39;s hoodies is $100.'> Up to $100",
+                        "<input type='checkbox' name='budget' value='My maximum budget for the men&#39;s hoodies is $150.'> Up to $150",
+                        "<input type='checkbox' name='budget' value='I do not have a maximum budget for the men&#39;s hoodies.'> No Maximum Budget"
+                    ]
+                },
+                {
+                    "text": "For what purpose will you be using the men's hoodies?",
+                    "options": [
+                        "<input type='checkbox' name='usage' value='I will be using the men&#39;s hoodies for sports.'> Sports",
+                        "<input type='checkbox' name='usage' value='I will be using the men&#39;s hoodies for casual wear.'> Casual Wear",
+                        "<input type='checkbox' name='usage' value='I will be using the men&#39;s hoodies for work.'> Work"
+                    ]
+                },
+                {
+                    "text": "Is there any specific design you are interested in for the men's hoodies?",
+                    "options": [
+                        "<input type='checkbox' name='design' value='I am interested in plain design for the men&#39;s hoodies.'> Plain",
+                        "<input type='checkbox' name='design' value='I am interested in patterned design for the men&#39;s hoodies.'> Patterned",
+                        "<input type='checkbox' name='design' value='I am interested in graphic design for the men&#39;s hoodies.'> Graphic",
+                        "<input type='checkbox' name='design' value='I am not interested in any specific design for the men&#39;s hoodies.'> No Specific Design"
+                    ]
+                },
+                {
+                    "text": "Would you like the hoodies to be insulated for cold weather?",
+                    "options": [
+                        "<input type='checkbox' name='insulated' value='I would like the men&#39;s hoodies to be insulated for cold weather.'> Yes",
+                        "<input type='checkbox' name='insulated' value='I would not like the men&#39;s hoodies to be insulated for cold weather.'> No"            
+                    ]
+                },
+                {
+                    "text": "Would you like the men's hoodies to be water resistant?",
+                    "options": [
+                        "<input type='checkbox' name='water_resistant' value='I would like the men&#39;s hoodies to be water resistant.'> Yes",
+                        "<input type='checkbox' name='water_resistant' value='I would not like the men&#39;s hoodies to be water resistant.'> No"          
+                    ]
+                }
             ]
         }
     };
