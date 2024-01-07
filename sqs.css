@@ -30,6 +30,10 @@ body {
     background-color: #f8f9fa !important;
 }
 
+.header-announcement-bar-wrapper {
+    display: none;
+}
+
 .content-wrapper {
     background-color: #f8f9fa !important;
 }
