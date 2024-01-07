@@ -5,6 +5,11 @@
     --bs-gutter-y: 0 !important;
 }
 
+.sqs-block {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
 @media only screen and (max-width: 767px) {
     /*
     .row>* {
