@@ -187,9 +187,9 @@ const renderQuestion = function (opts = {}) {
 
 const calculateAppHeight = function () {
     let $app = $("#app");
-    let appPos = $app.offset().top - $(window).scrollTop();
+    let viewportHeight = window.innerHeight;
     // Set viewport height based on where the app is located on the screen
-    $app.css("height", `calc(100vh - ${appPos}px `);
+    $app.css("height", `${viewportHeight}px`);
 };
 
 $(document).ready(function () {
