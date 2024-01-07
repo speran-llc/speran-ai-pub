@@ -188,9 +188,9 @@ $(document).ready(function () {
     // squarespace hack
     let $sqmain = $("main");
     if ($sqmain.length > 0) {
-        $sqmain.html("");
-        $app = $(`<div id="app"></div>`);
-        $sqmain.append($app);
+        //$sqmain.html("");
+        //$app = $(`<div id="app"></div>`);
+        //$sqmain.append($app);
     }
 
     $app.addClass("bg-light d-flex flex-column vh-100");
