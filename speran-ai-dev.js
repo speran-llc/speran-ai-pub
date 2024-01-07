@@ -187,7 +187,7 @@ const renderQuestion = function (opts = {}) {
 
 const calculateAppHeight = function () {
     let $app = $("#app");
-    let viewportHeight = window.innerHeight - 50;
+    let viewportHeight = window.innerHeight - $app.offset().top;
     // Set viewport height based on where the app is located on the screen
     $app.css("height", `${viewportHeight}px`);
 };
@@ -198,8 +198,7 @@ $(document).ready(function () {
 
     $app.addClass("bg-light d-flex flex-column mx-auto");
 
-    calculateAppHeight();
-    $(window).on('resize', calculateAppHeight);
+    $(window).on('load', calculateAppHeight);
 
     let template = `
     <div class="main overflow-auto mb-auto d-flex flex-column">

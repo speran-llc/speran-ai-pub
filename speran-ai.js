@@ -188,8 +188,6 @@ const renderQuestion = function (opts = {}) {
 const calculateAppHeight = function () {
     let $app = $("#app");
     let viewportHeight = window.innerHeight - $app.offset().top;
-    console.log("wh", window.innerHeight);
-    console.log("ao", $app.offset().top);
     // Set viewport height based on where the app is located on the screen
     $app.css("height", `${viewportHeight}px`);
 };
@@ -200,11 +198,16 @@ $(document).ready(function () {
 
     $app.addClass("bg-light d-flex flex-column mx-auto");
 
-    //calculateAppHeight();
     $(window).on('load', calculateAppHeight);
 
     let template = `
     <div class="main overflow-auto mb-auto d-flex flex-column">
+        <div class="hero py-3 w-100 d-flex justify-content-center">
+            <div class="text-background px-3 sai-content">
+                <h1 id="title" class="mb-0"></h1>
+            </div>
+        </div>
+
         <div class="messageHelpers py-3 px-3 sai-content">
             <h1>Message Composer</h1>
             <p>Click an answer to add it to your message and again to remove it.</p>
