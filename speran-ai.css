@@ -42,7 +42,7 @@
     display: inline-block; /* Or as per your layout requirement */
 }
 
-button.send {
+button.sendMessage {
     position: absolute;
     bottom: 10px;
     right: 25px;
