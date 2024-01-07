@@ -20,10 +20,6 @@
     margin-right: 0 !important;
 }
 
-#app {
-    height: calc(100vh - 83px) !important;
-}
-
 footer {
     display: none;
 }
