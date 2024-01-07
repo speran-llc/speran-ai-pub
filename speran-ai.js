@@ -205,12 +205,6 @@ $(document).ready(function () {
 
     let template = `
     <div class="main overflow-auto mb-auto d-flex flex-column">
-        <div class="hero py-3 w-100 d-flex justify-content-center">
-            <div class="text-background px-3 sai-content">
-                <h1 id="title" class="mb-0"></h1>
-            </div>
-        </div>
-
         <div class="messageHelpers py-3 px-3 sai-content">
             <h1>Message Composer</h1>
             <p>Click an answer to add it to your message and again to remove it.</p>
