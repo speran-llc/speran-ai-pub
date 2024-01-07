@@ -1,0 +1,12 @@
+.sqs-layout .sqs-row .sqs-block:last-child {
+    padding-bottom: 0 !important;
+}
+
+.sqs-layout .sqs-row .sqs-block:first-child {
+    padding-top: 0 !important;
+}
+
+[class*=sqs-col] .sqs-block {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
