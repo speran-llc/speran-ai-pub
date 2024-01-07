@@ -28,6 +28,14 @@ footer {
 
 body {
     background-color: #f8f9fa !important;
+    position: fixed;
+}
+
+/* Desktop Background */
+@media only screen and (min-width: 768px) {
+    body {
+        position: static;
+    }
 }
 
 .header-announcement-bar-wrapper {
