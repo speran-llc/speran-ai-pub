@@ -187,7 +187,7 @@ const renderQuestion = function (opts = {}) {
 
 const calculateAppHeight = function () {
     let $app = $("#app");
-    let viewportHeight = window.innerHeight;
+    let viewportHeight = window.innerHeight - $app.offset().top;
     // Set viewport height based on where the app is located on the screen
     $app.css("height", `${viewportHeight}px`);
 };
@@ -228,7 +228,7 @@ $(document).ready(function () {
 <textarea name="text" id="text" class="w-100 pe-5 form-control">
 Help me find a ${PRODUCT_STR} based on my needs.
 </textarea>
-            <button type="button" class="btn btn-primary send"><i class="fa-solid fa-paper-plane"></i></button>
+            <button type="button" class="btn btn-primary sendMessage"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
         <div class="promptHelp d-flex align-items-center">
             <button type="button" class="btn btn-secondary btn-sm viewMessageHelpers"><i class="fa-solid fa-minus fa-xs"></i></button>
@@ -244,7 +244,7 @@ Help me find a ${PRODUCT_STR} based on my needs.
     let $prompt = $app.find(".prompt");
     let $tp = $prompt.find(".togglePrompt");
     let $promptInput = $prompt.find("textarea");
-    let $bs = $prompt.find("button.send");
+    let $bs = $prompt.find("button.sendMessage");
     let $pr = $app.find(".promptResponse");
     let $promptHelp = $app.find(".promptHelp");
     let $mh = $app.find(".messageHelpers");
