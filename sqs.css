@@ -5,7 +5,7 @@
     --bs-gutter-y: 0 !important;
 }
 
-.sqs-block {
+.sqs-layout .sqs-row .sqs-block:last-child {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
 }
