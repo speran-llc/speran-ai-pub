@@ -185,16 +185,6 @@ $(document).ready(function () {
 
     let $app = $("#app");
 
-    // squarespace hack
-    let $sqmain = $("main");
-    if ($sqmain.length > 0) {
-        $sqmain.removeClass("container")
-        $sqmain.find(".content-wrapper").removeClass("content-wrapper").addClass("w-100");
-        //$sqmain.html("");
-        //$app = $(`<div id="app"></div>`);
-        //$sqmain.append($app);
-    }
-
     $app.addClass("bg-light d-flex flex-column vh-100 mx-auto");
 
     let template = `
