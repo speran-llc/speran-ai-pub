@@ -185,16 +185,21 @@ const renderQuestion = function (opts = {}) {
     return $obj;
 }
 
+const calculateAppHeight = function () {
+    let $app = $("#app");
+    let appPos = $app.offset().top - $(window).scrollTop();
+    // Set viewport height based on where the app is located on the screen
+    $app.css("height", `calc(100vh - ${appPos}px `);
+};
+
 $(document).ready(function () {
 
     let $app = $("#app");
 
     $app.addClass("bg-light d-flex flex-column mx-auto");
 
-    let appPos = $app.offset().top - $(window).scrollTop();
-
-    // Set viewport height based on where the app is located on the screen
-    $app.css("height", `calc(100vh - ${appPos}px `);
+    calculateAppHeight();
+    $(window).on('resize', calculateAppHeight);
 
     let template = `
     <div class="main overflow-auto mb-auto d-flex flex-column">
