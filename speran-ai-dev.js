@@ -210,9 +210,9 @@ $(document).ready(function () {
         </div>
 
         <div class="messageHelpers py-3 px-3 sai-content">
-            <h1>Write a message to ChatGPT</h1>
+            <h1>Message Composer</h1>
             <p>Click an answer to add it to your message and again to remove it.</p>
-            <p><strong>Note:</strong> Click as few or as many as you want.</p>
+            <p><strong>Note:</strong> Click on any number of answers you want.</p>
             <div class="helpers"></div>
         </div>
 
@@ -233,7 +233,7 @@ Help me find a ${PRODUCT_STR} based on my needs.
         </div>
         <div class="promptHelp d-flex align-items-center">
             <button type="button" class="btn btn-secondary btn-sm viewMessageHelpers"><i class="fa-solid fa-minus fa-xs"></i></button>
-            <div class="text-white-50 ms-2 fs-6">Get help writing your message</div>
+            <div class="text-white-50 ms-2 fs-6">Message Composer</div>
         </div>
     </div>
     `;
