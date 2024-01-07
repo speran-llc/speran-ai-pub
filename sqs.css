@@ -12,10 +12,10 @@
 }
 
 .row {
-    --bs-gutter-x: 0;
+    --bs-gutter-x: 0 !important;
 }
 
 .sqs-layout > .sqs-row {
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
