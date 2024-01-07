@@ -202,13 +202,29 @@ $(document).ready(function () {
 
     let template = `
     <div class="main overflow-auto mb-auto d-flex flex-column">
-        <div class="hero py-3 w-100 d-flex justify-content-center">
+        <div class="hero py-3 w-100 d-flex justify-content-center" style="padding-top: 5rem !important">
             <div class="text-background px-3 sai-content">
                 <h1 id="title" class="mb-0"></h1>
             </div>
         </div>
 
-        <div class="messageHelpers py-3 px-3 sai-content">
+        <div class="intro py-3 px-3 sai-content row g-0 w-100">
+            <h2>How It Works</h2>
+            <div class="col-12 p-3 my-2 border rounded">
+                <h5><i class="fa-regular fa-comment-dots"></i> Ask ChatGPT</h5>
+                Provide your requirements in the chat box below, then click <button class="btn btn-primary btn-sm"><i class="fa-solid fa-paper-plane fa-xs"></i></button>
+            </div>
+            <div class="col-12 p-3 my-2 border rounded">
+                <h5><i class="fa-solid fa-glasses"></i> Enjoy</h5>
+                ChatGPT will provide a recommendation based on your needs
+            </div>
+            <div class="col-12 p-3 my-2 border rounded">
+                <h5><i class="fa-solid fa-arrows-spin"></i> Refine</h5>
+                Share additional requirements or ask more questions (use the Message Composer to help)
+            </div>
+        </div>
+
+        <div class="messageHelpers py-3 px-3 sai-content d-none">
             <h1>Message Composer</h1>
             <p>Click an answer to add it to your message and again to remove it.</p>
             <p><strong>Note:</strong> Click on any number of answers you want.</p>
@@ -231,7 +247,7 @@ Help me find a ${PRODUCT_STR} based on my needs.
             <button type="button" class="btn btn-primary sendMessage"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
         <div class="promptHelp d-flex align-items-center">
-            <button type="button" class="btn btn-secondary btn-sm viewMessageHelpers"><i class="fa-solid fa-minus fa-xs"></i></button>
+            <button type="button" class="btn btn-secondary btn-sm viewMessageHelpers"><i class="fa-solid fa-plus fa-xs"></i></button>
             <div class="text-white-50 ms-2 fs-6">Message Composer</div>
         </div>
     </div>
@@ -241,6 +257,7 @@ Help me find a ${PRODUCT_STR} based on my needs.
 
     let $main = $app.find(".main");
     let $hero = $app.find(".hero");
+    let $intro = $app.find(".intro");
     let $prompt = $app.find(".prompt");
     let $tp = $prompt.find(".togglePrompt");
     let $promptInput = $prompt.find("textarea");
@@ -264,8 +281,8 @@ Help me find a ${PRODUCT_STR} based on my needs.
         // Reset height of textarea
         $promptInput.removeClass("expanded");
 
-        // Disable message helper
-        //$vmh.prop("disabled", true);
+        // Hide intro
+        $intro.addClass("d-none");
 
         // Show prompt response
         $pr.removeClass("d-none");
