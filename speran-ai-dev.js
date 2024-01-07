@@ -11,7 +11,11 @@ const QUESTIONS_LIST = getQuestionsList(PRODUCT_STR);
 const USER_ID = generateUUID();
 
 let HISTORY = [
-    `You are an experienced salesperson that sells ${PRODUCTS_STR}. You are friendly. You provide a lot of information.`
+    `You are an experienced salesperson that sells ${PRODUCTS_STR}.
+    You are friendly.
+    You provide a lot of information.
+    Keep asking questions to refine your recommendation.
+    `
 ];
 
 async function sendMessage(opts = {}) {
@@ -187,7 +191,7 @@ $(document).ready(function () {
 
     $app.addClass("bg-light d-flex flex-column mx-auto");
 
-    let appPos = $app.position().top;
+    let appPos = $app.offset().top - $(window).scrollTop();
 
     // Set viewport height based on where the app is located on the screen
     $app.css("height", `calc(100vh - ${appPos}px `);
