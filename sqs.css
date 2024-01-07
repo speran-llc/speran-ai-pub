@@ -27,3 +27,11 @@
 footer {
     display: none;
 }
+
+.container {
+    --bs-gutter-x: 0 !important;
+}
+
+.content-wrapper {
+    padding: 0 !important;
+}
