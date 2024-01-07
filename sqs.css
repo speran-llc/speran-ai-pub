@@ -1,6 +1,7 @@
 /* CSS specific to Squarespace */
 
 @media only screen and (max-width: 767px) {
+    /*
     .row>* {
         padding-left: 0 !important;
         padding-right: 0 !important;
@@ -41,6 +42,12 @@
 
     #page {
         max-width: none;
+    }
+    */
+
+    [class*=sqs-col] .sqs-block {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 }
 

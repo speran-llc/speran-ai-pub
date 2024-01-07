@@ -188,6 +188,8 @@ $(document).ready(function () {
     // squarespace hack
     let $sqmain = $("main");
     if ($sqmain.length > 0) {
+        $sqmain.removeClass("container")
+        $sqmain.find(".content-wrapper").removeClass("content-wrapper").addClass("w-100");
         //$sqmain.html("");
         //$app = $(`<div id="app"></div>`);
         //$sqmain.append($app);
