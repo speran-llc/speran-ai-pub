@@ -216,7 +216,7 @@ $(document).ready(function () {
             <div class="helpers"></div>
         </div>
 
-        <div class="promptResponse py-3 px-3 sai-content"></div>
+        <div class="promptResponse py-3 px-3 sai-content d-none"></div>
     </div>
 
     <div class="prompt mx-auto bg-dark px-3 py-1 w-100">
