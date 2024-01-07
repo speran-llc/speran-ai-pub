@@ -195,7 +195,7 @@ $(document).ready(function () {
         //$sqmain.append($app);
     }
 
-    $app.addClass("bg-light d-flex flex-column vh-100");
+    $app.addClass("bg-light d-flex flex-column vh-100 mx-auto");
 
     let template = `
     <div class="main overflow-auto mb-auto d-flex flex-column">
@@ -205,17 +205,17 @@ $(document).ready(function () {
             </div>
         </div>
 
-        <div class="promptResponse py-3 px-3 sai-content mx-auto overflow-auto"></div>
-
-        <div class="messageHelpers py-3 px-3 sai-content mx-auto overflow-auto">
+        <div class="messageHelpers py-3 px-3 sai-content">
             <h1>Message Helpers</h1>
             <p>Quickly prepare a message to ChatGPT by clicking an answer to add it to your message. Click again to remove it.</p>
             <p><strong>Note:</strong> Click as few or as many as you want.</p>
             <div class="helpers"></div>
         </div>
+
+        <div class="promptResponse py-3 px-3 sai-content"></div>
     </div>
 
-    <div class="prompt mx-auto sai-content bg-dark px-3 py-1 w-100">
+    <div class="prompt mx-auto bg-dark px-3 py-1 w-100">
         <div class="d-grid gap-2">
             <button type="button" class="togglePrompt btn-sm btn">
                 <i class="fa fa-solid fa-chevron-up text-light"></i>
@@ -295,7 +295,7 @@ Help me find a ${PRODUCT_STR} based on my needs.
                 html = current + marked.parse(args.data);
                 $pr.html(html);
 
-                $pr.scrollTop($pr.prop('scrollHeight'));
+                $main.scrollTop($main.prop('scrollHeight'));
             },
             onEnd: function () {
                 let endText = `
@@ -344,7 +344,7 @@ Help me find a ${PRODUCT_STR} based on my needs.
 
         $messageHelpers.toggleClass("d-none");
 
-        $messageHelpers.scrollTop($messageHelpers.prop("scrollHeight"));
+        $main.scrollTop($messageHelpers.position().top);
     });
 
     $tp.on("click", function () {

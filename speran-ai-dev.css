@@ -1,3 +1,7 @@
+#app {
+    max-width: 768px;
+}
+
 /* Need to set #hero.background-image */
 
 .hero {
@@ -23,17 +27,6 @@
 .cbx-container input[type="checkbox"] {
     cursor: pointer;
     margin-right: 10px;
-}
-
-.sai-content {
-    width: 100%;
-}
-
-/* Desktop Background */
-@media only screen and (min-width: 768px) {
-    .sai-content {
-        max-width: 728px;
-    }
 }
 
 .prompt textarea {
