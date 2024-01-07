@@ -1,43 +1,7 @@
-body {
-    overflow: hidden;
-    position: fixed !important;
-}
-
-@media only screen and (min-width: 768px) {
-    body {
-        position: static !important;
-    }
-}
-
-#app {
-    height: 100vh;
-    padding-bottom: 20vh;
-    overflow-y: scroll;
-}
-
 /* Need to set #hero.background-image */
 
-#hero {
-    height: 20vh;
-    /* Set the height of the hero section (e.g., full viewport height) */
-    width: 100%;
-    /* Set the width to be full width of the viewport */
-}
-
-/* Mobile Background */
-@media only screen and (max-width: 767px) {
-    #hero {
-        background-position: -50px;
-        background-size: cover;
-    }
-}
-
-/* Desktop Background */
-@media only screen and (min-width: 768px) {
-    #hero {
-        background-position: 200px 50%;
-        background-size: cover;
-    }
+.hero {
+    background-size: cover;
 }
 
 .text-background {
@@ -48,10 +12,6 @@ body {
     padding: 5px;
     /* Or as needed */
     display: inline-block;
-}
-
-.text-background-inner {
-    max-width: 900px;
 }
 
 .cbx-container {
@@ -66,29 +26,22 @@ body {
 }
 
 .sai-content {
-    max-width: 600px;
+    width: 100%;
 }
 
-.promptResponse {
-    overflow-y: auto;
-}
-
-.prompt {
-    position: fixed; /* Fixed positioning relative to the viewport */
-    bottom: 0; /* Stick to the bottom */
-    left: 0; /* Set left to 50% of the viewport */
-    right: 0;
-    width: 100%; /* Adjust the width as needed, not full width */
-    background-color: white;
-    max-width: 600px;
+/* Desktop Background */
+@media only screen and (min-width: 768px) {
+    .sai-content {
+        max-width: 728px;
+    }
 }
 
 .prompt textarea {
-    height: 100px;
+    height: 65px;
 }
 
 .prompt textarea.expanded {
-    height: 50vh;
+    height: 100px;
 }
 
 .textarea-container {

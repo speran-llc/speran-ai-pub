@@ -140,6 +140,7 @@ const renderQuestion = function (opts = {}) {
     }
 
     let $p = $app.find(".prompt");
+    let $btn = $p.find("button.togglePrompt");
     let $pt = $p.find("textarea");
 
     // Check the checkbox when user clicks on option
@@ -171,6 +172,10 @@ const renderQuestion = function (opts = {}) {
 
         // Scroll textarea to bottom
         $pt.scrollTop($pt.prop('scrollHeight'));
+
+        // Expand textarea
+        $pt.addClass("expanded");
+        $btn.html(`<i class="fa fa-solid fa-chevron-down text-light"></i>`);
     });
 
     return $obj;
@@ -180,31 +185,28 @@ $(document).ready(function () {
 
     let $app = $("#app");
 
-    $app.addClass("bg-light mx-auto");
+    $app.addClass("bg-light d-flex flex-column vh-100");
 
     let template = `
-    <div id="hero" class="d-flex align-items-center justify-content-center">
-      <div class="text-background p-3">
-        <div class="row text-background-inner mx-auto">
-          <div class="col-md-8">
-            <h1 id="title"></h1>
-          </div>
+    <div class="main overflow-auto mb-auto d-flex flex-column">
+        <div class="hero py-3 w-100 d-flex justify-content-center">
+            <div class="text-background px-3 sai-content">
+                <h1 id="title" class="mb-0"></h1>
+            </div>
         </div>
-      </div>
+
+        <div class="promptResponse py-3 px-3 sai-content mx-auto overflow-auto"></div>
+
+        <div class="messageHelpers py-3 px-3 sai-content mx-auto">
+            <h1>Message Helpers</h1>
+            <p>Quickly prepare a message to ChatGPT by clicking an answer to add it to your message. Click again to remove it.</p>
+            <p><strong>Note:</strong> Click as few or as many as you want.</p>
+            <div class="helpers"></div>
+        </div>
     </div>
 
-    <div class="promptResponse mx-auto px-3 pt-3 bg-light sai-content">    </div>
-
-    <div class="messageHelpers my-3 px-3 sai-content mx-auto">
-        <h1>Message Helpers</h1>
-        <p>Quickly prepare a message to ChatGPT by clicking an answer to add it to your message. Click again to remove it.</p>
-        <p><strong>Note:</strong> Click as few or as many as you want.</p>
-        <div class="helpers"></div>
-    </div>
-    
-    <!-- sticky -->
-    <div class="prompt px-3 py-1 bg-dark mx-auto">
-        <div class="mb-1 d-grid gap-2">
+    <div class="prompt mx-auto sai-content bg-dark px-3 py-1 w-100">
+        <div class="d-grid gap-2">
             <button type="button" class="togglePrompt btn-sm btn">
                 <i class="fa fa-solid fa-chevron-up text-light"></i>
             </button>
@@ -217,15 +219,17 @@ Help me find a ${PRODUCT_STR} based on my needs.
         </div>
         <div class="promptHelp d-flex align-items-center">
             <button type="button" class="btn btn-secondary btn-sm viewMessageHelpers"><i class="fa-solid fa-minus fa-xs"></i></button>
-            <div class="text-white-50 ms-2 fs-6">Toggle message helpers</div>
+            <div class="text-white-50 ms-2 fs-6">Get help writing your message</div>
         </div>
-    </div>    
+    </div>
     `;
 
     $app.append(template)
 
-    let $hero = $app.find("#hero");
+    let $main = $app.find(".main");
+    let $hero = $app.find(".hero");
     let $prompt = $app.find(".prompt");
+    let $tp = $prompt.find(".togglePrompt");
     let $promptInput = $prompt.find("textarea");
     let $bs = $prompt.find("button.send");
     let $pr = $app.find(".promptResponse");
@@ -240,18 +244,22 @@ Help me find a ${PRODUCT_STR} based on my needs.
 
         let message = $prompt.find("textarea").val();
 
-        // Clear out prompt
+        // Reset prompt
+        $tp.html(`<i class="fa fa-solid fa-chevron-up text-light"></i>`);
         $promptInput.val("");
 
         // Reset height of textarea
         $promptInput.removeClass("expanded");
 
+        // Disable message helper
+        //$vmh.prop("disabled", true);
+
+        // Show prompt response
+        $pr.removeClass("d-none");
+
         // Hide message helpers
         $mh.addClass("d-none");
         $vmh.html(`<i class="fa fa-solid fa-plus fa-xs"></i>`);
-
-        // Disable message helper
-        $vmh.prop("disabled", true);
 
         // Reset all checkboxes
         $app.find("input").prop("checked", false);
@@ -277,7 +285,7 @@ Help me find a ${PRODUCT_STR} based on my needs.
                 html = current + marked.parse(args.data);
                 $pr.html(html);
 
-                $app.scrollTop($app.prop('scrollHeight'));
+                $pr.scrollTop($pr.prop('scrollHeight'));
             },
             onEnd: function () {
                 let endText = `
@@ -285,6 +293,7 @@ Help me find a ${PRODUCT_STR} based on my needs.
                     <hr />
                 `;
                 $pr.html($pr.html() + endText);
+                $pr.scrollTop($pr.prop('scrollHeight'));
 
                 // Reset button
                 $bs.html(origTxt);
@@ -317,16 +326,17 @@ Help me find a ${PRODUCT_STR} based on my needs.
         let hidden = $messageHelpers.hasClass("d-none");
         if (hidden) {
             $vmh.html(`<i class="fa fa-solid fa-minus fa-xs"></i>`);
+            $pr.addClass("d-none");
         } else {
             $vmh.html(`<i class="fa fa-solid fa-plus fa-xs"></i>`);
+            $pr.removeClass("d-none");
         }
 
         $messageHelpers.toggleClass("d-none");
 
-        $app.scrollTop($messageHelpers.position().top + 100);
+        $messageHelpers.scrollTop($messageHelpers.prop("scrollHeight"));
     });
 
-    let $tp = $app.find(".togglePrompt");
     $tp.on("click", function () {
         let expanded = $promptInput.hasClass("expanded");
         if (expanded) {
