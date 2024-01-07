@@ -1,5 +1,10 @@
 /* CSS specific to Squarespace */
 
+.row {
+    --bs-gutter-x: 0 !important;
+    --bs-gutter-y: 0 !important;
+}
+
 @media only screen and (max-width: 767px) {
     /*
     .row>* {
@@ -45,6 +50,13 @@
     }
     */
 
+    [class*=sqs-col] .sqs-block {
+        padding-top: 0 !important;
+        padding-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width: 767px) {
     [class*=sqs-col] .sqs-block {
         padding-left: 0 !important;
         padding-right: 0 !important;
