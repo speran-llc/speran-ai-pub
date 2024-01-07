@@ -185,7 +185,12 @@ $(document).ready(function () {
 
     let $app = $("#app");
 
-    $app.addClass("bg-light d-flex flex-column vh-100 mx-auto");
+    $app.addClass("bg-light d-flex flex-column mx-auto");
+
+    let appPos = $app.position().top;
+
+    // Set viewport height based on where the app is located on the screen
+    $app.css("height", `calc(100vh - ${appPos}px `);
 
     let template = `
     <div class="main overflow-auto mb-auto d-flex flex-column">
@@ -196,8 +201,8 @@ $(document).ready(function () {
         </div>
 
         <div class="messageHelpers py-3 px-3 sai-content">
-            <h1>Message Helpers</h1>
-            <p>Quickly prepare a message to ChatGPT by clicking an answer to add it to your message. Click again to remove it.</p>
+            <h1>Write a message to ChatGPT</h1>
+            <p>Click an answer to add it to your message and again to remove it.</p>
             <p><strong>Note:</strong> Click as few or as many as you want.</p>
             <div class="helpers"></div>
         </div>
