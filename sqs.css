@@ -20,6 +20,10 @@
     .sqs-layout .sqs-row .sqs-block:first-child {
         padding-top: 0 !important;
     }
+
+    .sqs-block {
+        padding: 0 !important;
+    }
 }
 
 footer {
