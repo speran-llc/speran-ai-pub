@@ -197,7 +197,7 @@ $(document).ready(function () {
 
         <div class="promptResponse py-3 px-3 sai-content mx-auto overflow-auto"></div>
 
-        <div class="messageHelpers py-3 px-3 sai-content mx-auto">
+        <div class="messageHelpers py-3 px-3 sai-content mx-auto overflow-auto">
             <h1>Message Helpers</h1>
             <p>Quickly prepare a message to ChatGPT by clicking an answer to add it to your message. Click again to remove it.</p>
             <p><strong>Note:</strong> Click as few or as many as you want.</p>
