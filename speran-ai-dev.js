@@ -757,7 +757,78 @@ function getQuestionsList(key) {
                         "<input type=\"checkbox\" name=\"theme\" value=\"Yes, I am looking for a fantasy fiction book with a theme of mythology.\"> Yes, I am looking for a fantasy fiction book with a theme of mythology.",
                         "<input type=\"checkbox\" name=\"theme\" value=\"No, I am not looking for a fantasy fiction book with a specific theme.\"> No, I am not looking for a fantasy fiction book with a specific theme."
                     ]
-                }
+                },
+                {
+                    "text": "Does the length of the fantasy fiction book matter to you?",
+                    "options": [
+                      "<input type=\"checkbox\" name=\"length\" value=\"The length of the fantasy fiction book does matter to me.\"> The length of the fantasy fiction book does matter to me.",
+                      "<input type=\"checkbox\" name=\"length\" value=\"The length of the fantasy fiction book does not matter to me.\"> The length of the fantasy fiction book does not matter to me."
+                    ]
+                  },
+                  {
+                    "text": "Would you prefer the fantasy fiction book to have a happy or a tragic ending?",
+                    "options": [
+                      "<input type=\"checkbox\" name=\"ending\" value=\"I would prefer the fantasy fiction book to have a happy ending.\"> I would prefer the fantasy fiction book to have a happy ending.",
+                      "<input type=\"checkbox\" name=\"ending\" value=\"I would prefer the fantasy fiction book to have a tragic ending.\"> I would prefer the fantasy fiction book to have a tragic ending."
+                    ]
+                  },
+                  {
+                    "text": "Are you buying the fantasy fiction book for yourself or as a gift?",
+                    "options": [
+                      "<input type=\"checkbox\" name=\"purpose\" value=\"I am buying the fantasy fiction book for myself.\"> I am buying the fantasy fiction book for myself.",
+                      "<input type=\"checkbox\" name=\"purpose\" value=\"I am buying the fantasy fiction book as a gift.\"> I am buying the fantasy fiction book as a gift."
+                    ]
+                  },
+                  {
+                    "text": "Do you have a preference for reading paperbacks, hardcovers or e-books?",
+                    "options": [
+                      "<input type=\"checkbox\" name=\"format\" value=\"I have a preference for reading paperbacks.\"> I have a preference for reading paperbacks.",
+                      "<input type=\"checkbox\" name=\"format\" value=\"I have a preference for reading hardcovers.\"> I have a preference for reading hardcovers.",
+                      "<input type=\"checkbox\" name=\"format\" value=\"I have a preference for reading e-books.\"> I have a preference for reading e-books."
+                    ]
+                  },
+                  {
+                    "text": "Are there certain elements or themes you gravitate towards in a fantasy fiction book?",
+                    "options": [
+                      "<input type=\"checkbox\" name=\"elements\" value=\"Yes, there are certain elements or themes I gravitate towards in a fantasy fiction book.\"> Yes, there are certain elements or themes I gravitate towards in a fantasy fiction book.",
+                      "<input type=\"checkbox\" name=\"elements\" value=\"No, there are no specific elements or themes I gravitate towards in a fantasy fiction book.\"> No, there are no specific elements or themes I gravitate towards in a fantasy fiction book."
+                    ]
+                  },
+                  {
+                    "text": "Would you like to explore new authors or stick to your favourite ones?",
+                    "options": [
+                      "<input type=\"checkbox\" name=\"authors\" value=\"I would like to explore new authors in fantasy fiction book.\"> I would like to explore new authors in fantasy fiction book.",
+                      "<input type=\"checkbox\" name=\"authors\" value=\"I would like to stick to my favourite authors in fantasy fiction book.\"> I would like to stick to my favourite authors in fantasy fiction book."
+                    ]
+                  },
+                  {
+                    "text": "Would you prefer the fantasy fiction book to be targeted towards a specific gender?",
+                    "options": [
+                      "<input type=\"checkbox\" name=\"gender\" value=\"I would prefer the fantasy fiction book to be targeted towards a specific gender.\"> I would prefer the fantasy fiction book to be targeted towards a specific gender.",
+                      "<input type=\"checkbox\" name=\"gender\" value=\"I don't have a preference for gender-specific fantasy fiction books.\"> I don't have a preference for gender-specific fantasy fiction books."
+                    ]
+                  },
+                   {
+                    "text": "Do you prefer a single narrator or multiple points of view in a fantasy fiction book?",
+                    "options": [
+                      "<input type=\"checkbox\" name=\"narrator\" value=\"I prefer a single narrator in a fantasy fiction book.\"> I prefer a single narrator in a fantasy fiction book.",
+                      "<input type=\"checkbox\" name=\"narrator\" value=\"I prefer multiple points of view in a fantasy fiction book.\"> I prefer multiple points of view in a fantasy fiction book."
+                    ]
+                  },
+                  {
+                    "text": "Are you interested in reading a fantasy fiction book that includes illustrations?",
+                    "options": [
+                      "<input type=\"checkbox\" name=\"illustrations\" value=\"Yes, I am interested in reading a fantasy fiction book that includes illustrations.\"> Yes, I am interested in reading a fantasy fiction book that includes illustrations.",
+                      "<input type=\"checkbox\" name=\"illustrations\" value=\"No, I am not interested in reading a fantasy fiction book that includes illustrations.\"> No, I am not interested in reading a fantasy fiction book that includes illustrations."
+                    ]
+                  },
+                  {
+                    "text": "Are you interested in fantasy fiction books based on films or TV series?",
+                    "options": [
+                      "<input type=\"checkbox\" name=\"adaptations\" value=\"Yes, I am interested in fantasy fiction books based on films or TV series.\"> Yes, I am interested in fantasy fiction books based on films or TV series.",
+                      "<input type=\"checkbox\" name=\"adaptations\" value=\"No, I am not interested in fantasy fiction books based on films or TV series.\"> No, I am not interested in fantasy fiction books based on films or TV series."
+                    ]
+                  }
             ]
         }
     };
