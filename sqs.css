@@ -62,12 +62,16 @@
 
     [class*=sqs-col] .sqs-block {
         padding-top: 0 !important;
+        padding-bottom: 0 !important;
         padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 }
 
 @media only screen and (min-width: 767px) {
     [class*=sqs-col] .sqs-block {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
