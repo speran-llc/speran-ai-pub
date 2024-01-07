@@ -200,8 +200,8 @@ $(document).ready(function () {
 
     $app.addClass("bg-light d-flex flex-column mx-auto");
 
-    calculateAppHeight();
-    $(window).on('resize', calculateAppHeight);
+    //calculateAppHeight();
+    $(window).on('load', calculateAppHeight);
 
     let template = `
     <div class="main overflow-auto mb-auto d-flex flex-column">
