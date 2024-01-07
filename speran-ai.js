@@ -211,6 +211,13 @@ $(document).ready(function () {
             </div>
         </div>
 
+        <div class="messageHelpers py-3 px-3 sai-content">
+            <h1>Message Composer</h1>
+            <p>Click an answer to add it to your message and again to remove it.</p>
+            <p><strong>Note:</strong> Click on any number of answers you want.</p>
+            <div class="helpers"></div>
+        </div>
+
         <div class="promptResponse py-3 px-3 sai-content d-none"></div>
     </div>
 
