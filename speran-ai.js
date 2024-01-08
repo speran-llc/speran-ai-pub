@@ -212,8 +212,8 @@ $(document).ready(function () {
         <div class="intro py-3 px-3 sai-content row g-0 w-100">
             <h2>How It Works</h2>
             <div class="col-12 p-3 my-2 border rounded">
-                <h5><i class="fa-regular fa-comment-dots"></i> Ask ChatGPT</h5>
-                Type your requirements into the chat box or use Message Composer and click <button class="btn btn-primary btn-sm"><i class="fa-solid fa-paper-plane fa-xs"></i></button>
+                <h5><i class="fa-regular fa-comment-dots"></i> Ask</h5>
+                Type or add your requirements into the chat box
             </div>
             <div class="col-12 p-3 my-2 border rounded">
                 <h5><i class="fa-solid fa-glasses"></i> Evaluate</h5>
@@ -226,12 +226,12 @@ $(document).ready(function () {
         </div>
 
         <div class="messageHelpers py-3 px-3 sai-content d-none">
-            <h1>Message Composer</h1>
-            <p>Add as many requirements as you want to your message. Just click to add and once more to remove.</p>
+            <h1>Add Requirements</h1>
+            <p>Click to add and once more to remove - add as many as you want.</p>
             <div class="helpers"></div>
         </div>
 
-        <div class="promptResponse py-3 px-3 sai-content d-none"></div>
+        <div class="promptResponse py-3 px-3 sai-content d-none fs-5"></div>
     </div>
 
     <div class="prompt mx-auto bg-dark px-3 py-1 w-100">
@@ -248,7 +248,7 @@ Help me find a ${PRODUCT_STR} based on my needs.
         </div>
         <div class="promptHelp d-flex align-items-center">
             <button type="button" class="btn btn-secondary btn-sm viewMessageHelpers"><i class="fa-solid fa-plus fa-xs"></i></button>
-            <div class="text-white-50 ms-2 fs-6">Message Composer</div>
+            <div class="text-white-50 ms-2 fs-6">Add requirements</div>
         </div>
     </div>
     `;
