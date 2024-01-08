@@ -213,22 +213,21 @@ $(document).ready(function () {
             <h2>How It Works</h2>
             <div class="col-12 p-3 my-2 border rounded">
                 <h5><i class="fa-regular fa-comment-dots"></i> Ask ChatGPT</h5>
-                Provide your requirements in the chat box below, then click <button class="btn btn-primary btn-sm"><i class="fa-solid fa-paper-plane fa-xs"></i></button>
+                Type your requirements into the chat box or use Message Composer and click <button class="btn btn-primary btn-sm"><i class="fa-solid fa-paper-plane fa-xs"></i></button>
             </div>
             <div class="col-12 p-3 my-2 border rounded">
-                <h5><i class="fa-solid fa-glasses"></i> Enjoy</h5>
-                ChatGPT will provide a recommendation based on your needs
+                <h5><i class="fa-solid fa-glasses"></i> Evaluate</h5>
+                Get a personalized recommendation from ChatGPT
             </div>
             <div class="col-12 p-3 my-2 border rounded">
                 <h5><i class="fa-solid fa-arrows-spin"></i> Refine</h5>
-                Share additional requirements or ask more questions (use the Message Composer to help)
+                Improve the recommendation by sharing additional requirements or asking more questions
             </div>
         </div>
 
         <div class="messageHelpers py-3 px-3 sai-content d-none">
             <h1>Message Composer</h1>
-            <p>Click an answer to add it to your message and again to remove it.</p>
-            <p><strong>Note:</strong> Click on any number of answers you want.</p>
+            <p>Add as many requirements as you want to your message. Just click to add and once more to remove.</p>
             <div class="helpers"></div>
         </div>
 
