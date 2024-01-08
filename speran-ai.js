@@ -209,7 +209,7 @@ $(document).ready(function () {
             </div>
         </div>
 
-        <div class="intro py-3 px-3 sai-content row g-0 w-100">
+        <div class="intro py-3 px-3 sai-content row g-0 w-100 overflow-auto">
             <h2>How It Works</h2>
             <div class="col-12 p-3 my-2 border rounded">
                 <h5><i class="fa-regular fa-comment-dots"></i> Ask</h5>
@@ -225,13 +225,13 @@ $(document).ready(function () {
             </div>
         </div>
 
-        <div class="messageHelpers py-3 px-3 sai-content d-none">
+        <div class="messageHelpers py-3 px-3 sai-content d-none overflow-auto">
             <h1>Add Requirements</h1>
             <p>Click to add and once more to remove - add as many as you want.</p>
             <div class="helpers"></div>
         </div>
 
-        <div class="promptResponse py-3 px-3 sai-content d-none fs-5"></div>
+        <div class="promptResponse py-3 px-3 sai-content d-none fs-5 overflow-auto"></div>
     </div>
 
     <div class="prompt mx-auto bg-dark px-3 py-1 w-100">
@@ -281,7 +281,7 @@ Help me find a ${PRODUCT_STR} based on my needs.
         // Reset height of textarea
         $promptInput.removeClass("expanded");
 
-        // Hide intro
+        // Hide hero and intro
         $intro.addClass("d-none");
 
         // Show prompt response
@@ -357,6 +357,8 @@ Help me find a ${PRODUCT_STR} based on my needs.
         if (hidden) {
             $vmh.html(`<i class="fa fa-solid fa-minus fa-xs"></i>`);
             $pr.addClass("d-none");
+            $intro.addClass("d-none");
+            $hero.addClass("d-none");
         } else {
             $vmh.html(`<i class="fa fa-solid fa-plus fa-xs"></i>`);
             $pr.removeClass("d-none");
