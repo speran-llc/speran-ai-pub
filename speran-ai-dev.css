@@ -1,3 +1,8 @@
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
 #app {
     max-width: 767px;
 }
@@ -45,5 +50,26 @@
 button.sendMessage {
     position: absolute;
     bottom: 10px;
-    right: 25px;
+    right: 12px;
+}
+
+/* For WebKit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: lightgray;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+    border-radius: 6px;
+    border: 2px solid lightgray;
+}
+
+/* For Firefox */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: darkgray lightgray;
 }
