@@ -206,7 +206,7 @@ $(document).ready(function () {
             </div>
             <div class="col-12 p-3 my-2 border rounded">
                 <h5><i class="fa-solid fa-arrows-spin"></i> Refine</h5>
-                Further improve the recommendation by sharing additional requirements
+                Further improve the recommendation by answering additional questions
             </div>
         </div>
 
