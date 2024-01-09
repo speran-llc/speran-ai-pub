@@ -188,7 +188,7 @@ $(document).ready(function () {
     let template = `
     <div class="main overflow-auto mb-auto d-flex flex-column">
         <div class="hero w-100 d-flex justify-content-center">
-            <div class="text-background px-3 sai-content text-center">
+            <div class="text-background px-3 py-3 sai-content text-center">
                 <h1 id="title" class="mb-0 text-center"></h1>
                 <button id="start" class="btn btn-primary btn-lg my-3">Start</button>
             </div>
