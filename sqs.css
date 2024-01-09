@@ -20,6 +20,10 @@
     margin-right: 0 !important;
 }
 
+.header-announcement-bar-wrapper {
+    padding: 2vw 6vw !important;
+}
+
 footer {
     display: none;
 }
