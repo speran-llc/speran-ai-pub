@@ -219,17 +219,17 @@ $(document).ready(function () {
         <div class="promptResponse py-3 px-3 sai-content d-none fs-5"></div>
     </div>
 
-    <div class="prompt mx-auto bg-dark px-3 py-1 w-100 d-none">
-        <div class="d-grid gap-2">
+    <div class="prompt mx-auto bg-dark px-3 py-3 w-100 d-none">
+        <div class="d-grid gap-2 d-none">
             <button type="button" class="togglePrompt btn-sm btn">
                 <i class="fa fa-solid fa-chevron-up text-light"></i>
             </button>
         </div>
         <div class="textarea-container w-100">
-<textarea name="text" id="text" class="w-100 pe-5 form-control">
+<textarea name="text" id="text" class="w-100 pe-5 form-control" placeholder="Message ChatGPT..." rows="1" oninput="autoExpand(this)">
 Help me find the right ${PRODUCT_STR}
 </textarea>
-            <button type="button" class="btn btn-primary sendMessage"><i class="fa-solid fa-paper-plane"></i></button>
+            <button type="button" class="btn btn-primary btn-sm sendMessage"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
         <div class="promptHelp d-flex align-items-center d-none">
             <button type="button" class="btn btn-secondary btn-sm viewMessageHelpers"><i class="fa-solid fa-plus fa-xs"></i></button>
@@ -388,6 +388,14 @@ Help me find the right ${PRODUCT_STR}
         .typeString(`Let ChatGPT find<br>the right ${PRODUCT_STR} for you`)
         .start();
 });
+
+function autoExpand(textarea) {
+    // Reset the height to ensure the scroll height calculation is correct
+    textarea.style.height = 'auto';
+
+    // Set the height to the scroll height, which represents the height of the content
+    textarea.style.height = textarea.scrollHeight + 'px';
+}
 
 function getQuestionsList(key) {
     const ql = {
