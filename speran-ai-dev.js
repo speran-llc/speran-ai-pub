@@ -190,7 +190,7 @@ $(document).ready(function () {
         <div class="hero w-100 d-flex justify-content-center">
             <div class="text-background px-3 sai-content text-center">
                 <h1 id="title" class="mb-0 text-center"></h1>
-                <button class="btn btn-primary btn-lg start my-3">Start</button>
+                <button id="start" class="btn btn-primary btn-lg my-3">Start</button>
             </div>
         </div>
 
@@ -252,7 +252,7 @@ Help me find the right ${PRODUCT_STR}
     let $mh = $app.find(".messageHelpers");
     let $vmh = $promptHelp.find("button.viewMessageHelpers");
 
-    let $start = $hero.find("button.start");
+    let $start = $hero.find("#start");
     $start.on("click", function () {
         // Only show the background image
         $hero.find(".text-background").addClass("d-none");
