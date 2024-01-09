@@ -10,38 +10,22 @@ const QUESTIONS_LIST = getQuestionsList(PRODUCT_STR);
 
 const USER_ID = generateUUID();
 
-let HISTORY = [
-    `You are an experienced salesperson that sells ${PRODUCTS_STR}.
-    You are friendly.
-    You provide a lot of information.
-    Keep asking questions to refine your recommendation.
-    `
-];
+let HISTORY = [];
 
 async function sendMessage(opts = {}) {
 
-    let hs = HISTORY;
+    let messages = HISTORY;
 
     let prompt = opts.prompt;
 
-    hs.push(prompt);
+    messages.push({"role": "user", "content": prompt});
 
-    let links = `
-        If any product or service is mentioned, bold the name and link to a google search for that product.
-        In the link to the Google search, the product name should be URL encoded.
-        The class name of the link should be "recommendationLink" and the target of the link should be "_blank".
-        Bold all words that relate to my needs.
-    `;
-
-    let final = [...hs];
-    final.push(links);
-
-    let finalPrompt = final.join("\n");
-    log("finalPrompt", finalPrompt);
+    log("prompt", prompt);
 
     const requestBody = {
-        prompt: finalPrompt,
+        messages: messages,
         productStr: PRODUCT_STR,
+        productsStr: PRODUCTS_STR,
         userId: USER_ID
     };
 
@@ -72,7 +56,7 @@ async function sendMessage(opts = {}) {
 
             opts.onDataReceived({ data: responseText, current: current });
         }
-        hs.push(responseText);
+        messages.push({"role": "assistant", "content": responseText});
         opts.onEnd();
     } catch (err) {
         console.log("error", err);
@@ -203,25 +187,26 @@ $(document).ready(function () {
 
     let template = `
     <div class="main overflow-auto mb-auto d-flex flex-column">
-        <div class="hero py-3 w-100 d-flex justify-content-center" style="padding-top: 5rem !important">
-            <div class="text-background px-3 sai-content">
-                <h1 id="title" class="mb-0"></h1>
+        <div class="hero w-100 d-flex justify-content-center">
+            <div class="text-background px-3 sai-content text-center">
+                <h1 id="title" class="mb-0 text-center"></h1>
+                <button class="btn btn-primary btn-lg start my-3">Start</button>
             </div>
         </div>
 
         <div class="intro py-3 px-3 sai-content row g-0 w-100">
             <h2>How It Works</h2>
             <div class="col-12 p-3 my-2 border rounded">
-                <h5><i class="fa-regular fa-comment-dots"></i> Ask</h5>
-                Type or add your requirements into the chat box
+                <h5><i class="fa-regular fa-comment-dots"></i> Answer</h5>
+                ChatGPT will ask some questions to learn about your needs
             </div>
             <div class="col-12 p-3 my-2 border rounded">
                 <h5><i class="fa-solid fa-glasses"></i> Evaluate</h5>
-                Get a personalized recommendation from ChatGPT
+                You will then get a personalized recommendation
             </div>
             <div class="col-12 p-3 my-2 border rounded">
                 <h5><i class="fa-solid fa-arrows-spin"></i> Refine</h5>
-                Improve the recommendation by sharing additional requirements or asking more questions
+                Further improve the recommendation by sharing additional requirements
             </div>
         </div>
 
@@ -234,7 +219,7 @@ $(document).ready(function () {
         <div class="promptResponse py-3 px-3 sai-content d-none fs-5"></div>
     </div>
 
-    <div class="prompt mx-auto bg-dark px-3 py-1 w-100">
+    <div class="prompt mx-auto bg-dark px-3 py-1 w-100 d-none">
         <div class="d-grid gap-2">
             <button type="button" class="togglePrompt btn-sm btn">
                 <i class="fa fa-solid fa-chevron-up text-light"></i>
@@ -242,11 +227,11 @@ $(document).ready(function () {
         </div>
         <div class="textarea-container w-100">
 <textarea name="text" id="text" class="w-100 pe-5 form-control">
-Help me find a ${PRODUCT_STR} based on my needs.
+Help me find the right ${PRODUCT_STR}
 </textarea>
             <button type="button" class="btn btn-primary sendMessage"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
-        <div class="promptHelp d-flex align-items-center">
+        <div class="promptHelp d-flex align-items-center d-none">
             <button type="button" class="btn btn-secondary btn-sm viewMessageHelpers"><i class="fa-solid fa-plus fa-xs"></i></button>
             <div class="text-white-50 ms-2 fs-6">Add requirements</div>
         </div>
@@ -266,6 +251,21 @@ Help me find a ${PRODUCT_STR} based on my needs.
     let $promptHelp = $app.find(".promptHelp");
     let $mh = $app.find(".messageHelpers");
     let $vmh = $promptHelp.find("button.viewMessageHelpers");
+
+    let $start = $hero.find("button.start");
+    $start.on("click", function () {
+        // Only show the background image
+        $hero.find(".text-background").addClass("d-none");
+
+        // Hide the intro
+        $intro.addClass("d-none");
+
+        // Trigger the initial prompt
+        $bs.trigger("click");
+
+        // Show the chat box
+        $prompt.removeClass("d-none");
+    });
 
     $bs.on("click", function () {
 
@@ -385,7 +385,7 @@ Help me find a ${PRODUCT_STR} based on my needs.
         autoStart: true,
         loop: false,
     })
-        .typeString(`Let ChatGPT find the right ${PRODUCT_STR} for you`)
+        .typeString(`Let ChatGPT find<br>the right ${PRODUCT_STR} for you`)
         .start();
 });
 
