@@ -226,7 +226,7 @@ $(document).ready(function () {
             </button>
         </div>
         <div class="textarea-container w-100">
-<textarea name="text" id="text" class="w-100 pe-5 form-control" placeholder="Message ChatGPT..." rows="1" oninput="autoExpand(this)">
+<textarea name="text" id="text" class="w-100 pe-5 py-2 form-control" placeholder="Message ChatGPT..." rows="1" oninput="autoExpand(this)">
 Help me find the right ${PRODUCT_STR}
 </textarea>
             <button type="button" class="btn btn-primary btn-sm sendMessage"><i class="fa-solid fa-paper-plane"></i></button>
