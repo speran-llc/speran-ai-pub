@@ -75,6 +75,82 @@ const calculateAppHeight = function () {
     $app.css("height", `${viewportHeight}px`);
 };
 
+const submitMessage = function () {
+    let $app = $("#app");
+    let $main = $app.find(".main");
+    let $hero = $app.find(".hero");
+    let $intro = $app.find(".intro");
+    let $prompt = $app.find(".prompt");
+    let $promptInput = $prompt.find("textarea");
+    let $bs = $prompt.find("button.sendMessage");
+    let $pr = $app.find(".promptResponse");
+
+    let origTxt = $bs.html();
+    $bs.html(`<i class="fa fa-spinner fa-spin fa-xs"></i>`).prop("disabled", true);
+
+    let message = $prompt.find("textarea").val();
+
+    // Reset prompt
+    $promptInput.val("");
+
+    // Reset height of textarea
+    $promptInput.removeClass("expanded");
+
+    // Hide intro
+    $intro.addClass("d-none");
+
+    // Show prompt response
+    $pr.removeClass("d-none");
+
+    sendMessage({
+        prompt: message,
+        onStart: function (args) {
+
+            let yourMessage = message.replace(/\n/g, "<br>");
+
+            $pr.scrollTop($pr.prop('scrollHeight'));
+
+            $pr.html($pr.html() + `
+                    <div class="py-2"><strong>You</strong></div>
+                    <div class="mb-4">${yourMessage}</div>
+                    <div class="py-2"><strong>ChatGPT</strong></div>
+                `);
+
+            return $pr.html();
+        },
+        onDataReceived: function (args) {
+            let current = args.current;
+            html = current + marked.parse(args.data);
+            $pr.html(html);
+
+            $main.scrollTop($main.prop('scrollHeight'));
+        },
+        onEnd: function () {
+            let endText = `
+                    <div class="mb-4"></div>
+                    <hr />
+                `;
+            $pr.html($pr.html() + endText);
+            $pr.scrollTop($pr.prop('scrollHeight'));
+
+            // Reset button
+            $bs.html(origTxt);
+            $bs.prop("disabled", false);
+        },
+        onError: function (args) {
+            let endText = `
+                    <div class="mb-4">Sorry, there was an error. Please try again later.</div>
+                    <hr />
+                `;
+            $pr.html($pr.html() + endText);
+
+            // Reset button
+            $bs.html(origTxt);
+            $bs.prop("disabled", false);
+        }
+    });
+};
+
 $(document).ready(function () {
 
     let $app = $("#app");
@@ -114,7 +190,7 @@ $(document).ready(function () {
     <div class="prompt mx-auto bg-dark px-3 py-3 w-100 d-none">
         <div class="textarea-container w-100">
 <textarea name="text" id="text" class="w-100 pe-5 py-2 form-control" placeholder="Message ChatGPT..." rows="1" oninput="autoExpand(this)">
-Help me find the right ${PRODUCT_STR}
+Help me find the perfect ${PRODUCT_STR}
 </textarea>
             <button type="button" class="btn btn-primary btn-sm sendMessage"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
@@ -146,73 +222,15 @@ Help me find the right ${PRODUCT_STR}
         $prompt.removeClass("d-none");
     });
 
+    $promptInput.keydown(function (event) {
+        if (event.key == "Enter") { 
+            event.preventDefault();
+            submitMessage();
+        }
+    });
+
     $bs.on("click", function () {
-
-        let origTxt = $bs.html();
-        $bs.html(`<i class="fa fa-spinner fa-spin fa-xs"></i>`).prop("disabled", true);
-
-        let message = $prompt.find("textarea").val();
-
-        // Reset prompt
-        $promptInput.val("");
-
-        // Reset height of textarea
-        $promptInput.removeClass("expanded");
-
-        // Hide intro
-        $intro.addClass("d-none");
-
-        // Show prompt response
-        $pr.removeClass("d-none");
-
-        sendMessage({
-            prompt: message,
-            onStart: function (args) {
-
-                let yourMessage = message.replace(/\n/g, "<br>");
-
-                $pr.scrollTop($pr.prop('scrollHeight'));
-
-                $pr.html($pr.html() + `
-                    <div class="py-2"><strong>You</strong></div>
-                    <div class="mb-4">${yourMessage}</div>
-                    <div class="py-2"><strong>ChatGPT</strong></div>
-                `);
-
-                return $pr.html();
-            },
-            onDataReceived: function (args) {
-                let current = args.current;
-                html = current + marked.parse(args.data);
-                $pr.html(html);
-
-                $main.scrollTop($main.prop('scrollHeight'));
-            },
-            onEnd: function () {
-                let endText = `
-                    <div class="mb-4"></div>
-                    <hr />
-                `;
-                $pr.html($pr.html() + endText);
-                $pr.scrollTop($pr.prop('scrollHeight'));
-
-                // Reset button
-                $bs.html(origTxt);
-                $bs.prop("disabled", false);
-            },
-            onError: function (args) {
-                let endText = `
-                    <div class="mb-4">Sorry, there was an error. Please try again later.</div>
-                    <hr />
-                `;
-                $pr.html($pr.html() + endText);
-
-                // Reset button
-                $bs.html(origTxt);
-                $bs.prop("disabled", false);
-            }
-        });
-
+        submitMessage();
     });
 
     new Typewriter($('#title')[0], {
@@ -220,7 +238,7 @@ Help me find the right ${PRODUCT_STR}
         autoStart: true,
         loop: false,
     })
-        .typeString(`Let ChatGPT find<br>the right ${PRODUCT_STR} for you`)
+        .typeString(`Let ChatGPT find<br>the perfect ${PRODUCT_STR} for you`)
         .start();
 });
 
