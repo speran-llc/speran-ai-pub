@@ -120,7 +120,7 @@ const submitMessage = function () {
         },
         onDataReceived: function (args) {
             let current = args.current;
-            html = current + marked.parse(args.data);
+            html = current + args.data;
             $pr.html(html);
 
             $main.scrollTop($main.prop('scrollHeight'));
