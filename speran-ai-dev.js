@@ -169,6 +169,10 @@ $(document).ready(function () {
         </div>
 
         <div class="intro py-3 px-3 sai-content row g-0 w-100">
+            <div class="col-12 p-3 my-2 border rounded" style="font-size: 12px">
+                Every recommendation is independently made by ChatGPT. Things you buy through our links may earn us a commission.
+            </div>
+
             <h2>How It Works</h2>
             <div class="col-12 p-3 my-2 border rounded">
                 <h5><i class="fa-regular fa-comment-dots"></i> Answer</h5>
