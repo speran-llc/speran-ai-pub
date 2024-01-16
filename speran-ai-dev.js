@@ -8,6 +8,8 @@ Inputs:
 
 const USER_ID = generateUUID();
 
+const AFFILIATE_LINKS = getAffiliateLinks();
+
 let HISTORY = [];
 
 async function sendMessage(opts = {}) {
@@ -16,9 +18,7 @@ async function sendMessage(opts = {}) {
 
     let prompt = opts.prompt;
 
-    messages.push({"role": "user", "content": prompt});
-
-    log("prompt", prompt);
+    messages.push({ "role": "user", "content": prompt });
 
     const requestBody = {
         messages: messages,
@@ -54,7 +54,7 @@ async function sendMessage(opts = {}) {
 
             opts.onDataReceived({ data: responseText, current: current });
         }
-        messages.push({"role": "assistant", "content": responseText});
+        messages.push({ "role": "assistant", "content": responseText });
         opts.onEnd();
     } catch (err) {
         console.log("error", err);
@@ -121,6 +121,10 @@ const submitMessage = function () {
         onDataReceived: function (args) {
             let current = args.current;
             html = current + args.data;
+            html = replaceLinksWithAffiliateLinks(html, AFFILIATE_LINKS);
+
+            html = html + `<i class="fa-solid fa-spinner fa-spin fa-sm indicator ms-1"></i>`;
+
             $pr.html(html);
 
             $main.scrollTop($main.prop('scrollHeight'));
@@ -130,7 +134,11 @@ const submitMessage = function () {
                     <div class="mb-4"></div>
                     <hr />
                 `;
-            $pr.html($pr.html() + endText);
+            let html = $pr.html() + endText;
+            $pr.html(html);
+
+            $pr.find(".indicator").remove();
+
             $pr.scrollTop($pr.prop('scrollHeight'));
 
             // Reset button
@@ -227,7 +235,7 @@ Help me find the perfect ${PRODUCT_STR}
     });
 
     $promptInput.keydown(function (event) {
-        if (event.key == "Enter") { 
+        if (event.key == "Enter") {
             event.preventDefault();
             submitMessage();
         }
@@ -245,6 +253,30 @@ Help me find the perfect ${PRODUCT_STR}
         .typeString(`Let ChatGPT find<br>the perfect ${PRODUCT_STR} for you`)
         .start();
 });
+
+function replaceLinksWithAffiliateLinks(inputString, urlMappings) {
+    // Regular expression to match URLs
+    const urlRegex = /https:\/\/www\.google\.com\/search\?[^\s]+/i;
+
+    let $html = $("<div>" + inputString + "</div>");
+    $html.find('a').each(function () {
+        var $link = $(this);
+        let url = $link.attr("href");
+
+        // Sometimes getting undefined for some reason
+        if (url) {
+            url = url.replace(/\+/g, "%20");
+            url = url.toLowerCase();
+            if (urlMappings.hasOwnProperty(url)) {
+                // Replace with the URL from the JSON object
+                let affUrl = urlMappings[url].affiliate_url;
+                $link.attr("href", affUrl);
+                $link.addClass("affiliateLink");
+            }
+        }
+    });
+    return $html.prop("innerHTML");
+}
 
 function autoExpand(textarea) {
     // Reset the height to ensure the scroll height calculation is correct
@@ -264,4 +296,14 @@ function generateUUID() {
         d = Math.floor(d / 16);
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
+}
+
+function getAffiliateLinks() {
+    return {
+        "https://www.google.com/search?q=outlander%20romance%20book": "https://amzn.to/48B0yDz",
+        "https://www.google.com/search?q=the%20hating%20game%20romance%20book": "https://amzn.to/48zznJo",
+        "https://www.google.com/search?q=dark%20lover%20romance%20book": "https://amzn.to/3Su3H2F",
+        "https://www.google.com/search?q=pride%20and%20prejudice%20romance%20book": "https://amzn.to/3O192eY",
+        "https://www.google.com/search?q=dead%20until%20dark%20romance%20book": "https://amzn.to/4224SJt"
+    };
 }
