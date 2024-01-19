@@ -316,6 +316,25 @@ function getAffiliateLinks() {
         "https://www.google.com/search?q=the%20duke%20and%20i%20romance%20book": "https://amzn.to/3HrEiQw",
         "https://www.google.com/search?q=slave%20to%20sensation%20romance%20book": "https://amzn.to/426Bx0P",
         "https://www.google.com/search?q=dragon%20bound%20romance%20book": "https://amzn.to/3OwFC91",
-        "https://www.google.com/search?q=when%20he%20was%20wicked%20romance%20book": "https://amzn.to/48zr8wS"
+        "https://www.google.com/search?q=when%20he%20was%20wicked%20romance%20book": "https://amzn.to/48zr8wS",
+        "https://www.google.com/search?q=unleashed%20romance%20book": "https://amzn.to/47JCQUi",
+        "https://www.google.com/search?q=to%20beguile%20a%20beast%20romance%20book": "https://amzn.to/3vHsur3",
+        "https://www.google.com/search?q=halfway%20to%20the%20grave%20romance%20book": "https://amzn.to/48WlVPy",
+        "https://www.google.com/search?q=dark%20desire%20romance%20book": "https://amzn.to/3UdEASC",
+        "https://www.google.com/search?q=the%20night%20circus%20romance%20book": "https://amzn.to/3S2OYKl",
+        "https://www.google.com/search?q=hush%2c%20hush%20romance%20book": "https://amzn.to/490mvMg",
+        "https://www.google.com/search?q=the%20kiss%20quotient%20romance%20book": "https://amzn.to/3HJXJ7D",
+        "https://www.google.com/search?q=attachments%20romance%20book": "https://amzn.to/4b3KUCj",
+        "https://www.google.com/search?q=the%20flatshare%20romance%20book": "https://amzn.to/3vHuCPl",
+        "https://www.google.com/search?q=%22bared%20to%20you%22%20romance%20book": "https://amzn.to/4bdZJ5w",
+        "https://www.google.com/search?q=the%20siren%20romance%20book": "https://amzn.to/4b0hO6R",
+        "https://www.google.com/search?q=sweet%20addiction%20romance%20book": "https://amzn.to/47BAVRS",
+        "https://www.google.com/search?q=shelter%20for%20blythe%20romance%20book": "https://amzn.to/3u4OsU8",
+        "https://www.google.com/search?q=the%20fault%20in%20our%20stars%20romance%20book": "https://amzn.to/3vIHHrP",
+        "https://www.google.com/search?q=eleanor%20%26%20park%20romance%20book": "https://amzn.to/3vIHIfn",
+        "https://www.google.com/search?query=bared%20to%20you%20romance%20book": "https://amzn.to/3vHsLKB",
+        "https://www.google.com/search?q=beach%20read%20romance%20book": "https://amzn.to/421X4HP",
+        "https://www.google.com/search?q=you%20deserve%20each%20other%20romance%20book": "https://amzn.to/421Ofhf",
+        "https://www.google.com/search?q=bet%20me%20romance%20book": "https://amzn.to/426IMpj"
     };
 }
