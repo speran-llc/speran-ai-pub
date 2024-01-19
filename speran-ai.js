@@ -303,7 +303,19 @@ function getAffiliateLinks() {
         "https://www.google.com/search?q=outlander%20romance%20book": "https://amzn.to/48B0yDz",
         "https://www.google.com/search?q=the%20hating%20game%20romance%20book": "https://amzn.to/48zznJo",
         "https://www.google.com/search?q=dark%20lover%20romance%20book": "https://amzn.to/3Su3H2F",
+        "https://www.google.com/search?q=bared%20to%20you%20romance%20book": "https://amzn.to/47Gk68g",
         "https://www.google.com/search?q=pride%20and%20prejudice%20romance%20book": "https://amzn.to/3O192eY",
-        "https://www.google.com/search?q=dead%20until%20dark%20romance%20book": "https://amzn.to/4224SJt"
+        "https://www.google.com/search?q=dead%20until%20dark%20romance%20book": "https://amzn.to/4224SJt",
+        "https://www.google.com/search?q=the%20rosie%20project%20romance%20book": "https://amzn.to/48CMsBO",
+        "https://www.google.com/search?q=the%20notebook%20romance%20book": "https://amzn.to/3vHuak7",
+        "https://www.google.com/search?q=a%20court%20of%20thorns%20and%20roses%20romance%20book": "https://amzn.to/3vH3O1E",
+        "https://www.google.com/search?q=me%20before%20you%20romance%20book": "https://amzn.to/48EZ3En",
+        "https://www.google.com/search?q=the%20unhoneymooners%20romance%20book": "https://amzn.to/3S7Ulbr",
+        "https://www.google.com/search?q=the%20bronze%20horseman%20romance%20book": "https://amzn.to/3S7TKq8",
+        "https://www.google.com/search?q=the%20unwanted%20wife%20romance%20book": "https://amzn.to/48HDtzk",
+        "https://www.google.com/search?q=the%20duke%20and%20i%20romance%20book": "https://amzn.to/3HrEiQw",
+        "https://www.google.com/search?q=slave%20to%20sensation%20romance%20book": "https://amzn.to/426Bx0P",
+        "https://www.google.com/search?q=dragon%20bound%20romance%20book": "https://amzn.to/3OwFC91",
+        "https://www.google.com/search?q=when%20he%20was%20wicked%20romance%20book": "https://amzn.to/48zr8wS"
     };
 }
