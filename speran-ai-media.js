@@ -24,7 +24,8 @@ async function sendMessage(opts = {}) {
         messages: messages,
         productStr: PRODUCT_STR,
         productsStr: PRODUCTS_STR,
-        userId: USER_ID
+        userId: USER_ID,
+        quickStart: opts.quickStart
     };
 
     let current = opts.onStart();
@@ -104,6 +105,7 @@ const submitMessage = function (opts = {}) {
 
     sendMessage({
         prompt: message,
+        quickStart: opts.quickStart,
         onStart: function (args) {
 
             $pr.scrollTop($pr.prop('scrollHeight'));
@@ -284,12 +286,17 @@ $(document).ready(function () {
             favorites = `My favorite ${PRODUCTS_STR} are: ${favoritesInput}.`
         }
 
+        let quickStart = false;
+        if (elementsInput.length === 0 && favoritesInput.length === 0) {
+            quickStart = true;
+        }
+
         let promptText = `Help me find the perfect ${PRODUCT_STR}.${elements}${favorites}`;
 
         $promptInput.val(promptText);
 
         // Trigger the initial prompt
-        $bs.trigger("click", [{ hideMessage: true }]);
+        $bs.trigger("click", [{ hideMessage: true, quickStart: quickStart }]);
 
         // Show the chat box
         $prompt.removeClass("d-none");
