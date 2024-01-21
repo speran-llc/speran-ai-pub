@@ -1,5 +1,4 @@
-const API_URL_SEND = 'http://localhost:5001/media/sendMessage';
-
+const API_URL_SEND = 'https://speran-ai-06e327aea366.herokuapp.com/media/sendMessage';
 /*
 Inputs:
 - PRODUCT_STR

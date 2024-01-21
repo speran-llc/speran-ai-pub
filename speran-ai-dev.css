@@ -42,6 +42,11 @@ html, body {
     height: 100px;
 }
 
+textarea::placeholder {
+    font-size: 14px; /* Set the font size to your desired value */
+    /* You can also add other styling properties if needed */
+}
+
 .textarea-container {
     position: relative;
     display: inline-block; /* Or as per your layout requirement */
