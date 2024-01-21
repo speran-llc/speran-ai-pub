@@ -199,17 +199,6 @@ $(document).ready(function () {
 
         <div class="intro py-3 px-3 sai-content row g-0 w-100">
             
-            <h2 id="getStarted">Recommendations are better with AI</h2>
-
-            <div class="col-12 p-3 my-2 border rounded bg-white">By enabling you to articulate your preferences in great detail and nuance, ChatGPT gains a deeper understanding of your tastes.</div>
-            <div class="col-12 p-3 my-2 border rounded bg-white">Utilizing this insight, it sifts through its vast database to find the perfect ${PRODUCT_STR} for you.</div>
-
-            <div class="col-12 p-2 mb-3 text-center">
-                <button id="introStart" class="btn btn-primary btn-lg mx-auto">Start</button>
-            </div>
-
-            <img src="https://assets.codepen.io/624108/powered-by-openai-badge-filled-on-light.svg" alt="" class="mx-auto mb-5" style="width: 150px" />
-
             <h2 id="sharePreferences" class="pt-3">Share your preferences</h2>
 
             <div id="elementsContainer" class="col-12 py-2 mb-2">
@@ -227,25 +216,17 @@ $(document).ready(function () {
                 <button id="start" class="btn btn-primary mx-auto">Get recommendation from ChatGPT</button>
             </div>
 
+            <img src="https://assets.codepen.io/624108/powered-by-openai-badge-filled-on-light.svg" alt="" class="mx-auto mb-2" style="width: 150px" />
+
             <div class="col-12 p-3 my-2 border rounded" style="font-size: 12px">
                 Every recommendation is independently made by ChatGPT. Things you buy through our links may earn us a commission.
             </div>
 
 
-            <h2 class="mt-5">How It Works</h2>
+            <h2 id="getStarted" class="mt-5">Recommendations are better with AI</h2>
 
-            <div class="col-12 p-3 my-2 border rounded bg-white">
-                <h5><i class="fa-regular fa-comment-dots"></i> Answer</h5>
-                Answer a few questions about your preferences
-            </div>
-            <div class="col-12 p-3 my-2 border rounded bg-white">
-                <h5><i class="fa-solid fa-glasses"></i> Evaluate</h5>
-                ChatGPT will provide you with a personalized recommendation
-            </div>
-            <div class="col-12 p-3 my-2 border rounded bg-white">
-                <h5><i class="fa-solid fa-arrows-spin"></i> Refine</h5>
-                Further improve the recommendation by answering additional questions
-            </div>
+            <div class="col-12 p-3 my-2 border rounded bg-white">By enabling you to articulate your preferences in great detail and nuance, ChatGPT gains a deeper understanding of your tastes.</div>
+            <div class="col-12 p-3 my-2 border rounded bg-white">Utilizing this insight, it can sift through its vast database to find the perfect ${PRODUCT_STR} for you.</div>          
 
             <h2 class="mt-5">What is ChatGPT?</h2>
             
@@ -280,14 +261,6 @@ $(document).ready(function () {
     let $promptInput = $prompt.find("textarea");
     let $bs = $prompt.find("button.sendMessage");
     let $pr = $app.find(".promptResponse");
-
-    let $introStart = $app.find("#introStart");
-    $introStart.on("click", function () {
-        let $sp = $("#sharePreferences");
-        $main.animate({
-            scrollTop: $sp.offset().top
-        }, 500); 
-    })
 
     let $start = $app.find("#start");
     $start.on("click", function () {
